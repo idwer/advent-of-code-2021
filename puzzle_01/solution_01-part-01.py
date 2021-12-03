@@ -1,7 +1,7 @@
 import sys
 
 
-def solution(file):
+def solution(file: str) -> int:
     increased = 0
 
     with open(file) as infile:
@@ -11,8 +11,8 @@ def solution(file):
             if rows[line] > rows[line - 1]:
                 increased += 1
 
-    print(f"solution: {increased}")
+    return increased
 
 
 if __name__ == '__main__':
-    solution(sys.argv[1])
+    print(solution(sys.argv[1]))

@@ -1,7 +1,7 @@
 import sys
 
 
-def solution(file):
+def solution(file: str) -> int:
     pos_vertical = 0
     pos_horizontal = 0
 
@@ -17,8 +17,8 @@ def solution(file):
             if 'up' in line[0]:
                 pos_vertical -= int(line[1])
 
-    print(f"What do you get if you multiply your final horizontal position by your final depth? {pos_horizontal * pos_vertical}")
+    return pos_horizontal * pos_vertical
 
 
 if __name__ == '__main__':
-    solution(sys.argv[1])
+    print(f"What do you get if you multiply your final horizontal position by your final depth? {solution(sys.argv[1])}")

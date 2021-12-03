@@ -1,7 +1,7 @@
 import sys
 
 
-def solution(file):
+def solution(file: str) -> int:
     index = 0
     increased = 0
 
@@ -18,8 +18,8 @@ def solution(file):
             if sum_window_first < sum_window_second:
                 increased += 1
 
-    print(f"solution: {increased}")
+    return increased
 
 
 if __name__ == '__main__':
-    solution(sys.argv[1])
+    print(solution(sys.argv[1]))
