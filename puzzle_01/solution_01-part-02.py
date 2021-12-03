@@ -7,6 +7,7 @@ def solution(file: str) -> int:
 
     with open(file, 'r') as infile:
         rows = [int(n) for n in infile.read().splitlines()]
+        infile.close()
 
         for line, _ in enumerate(rows):
             sum_window_first = sum(rows[index:index + 3])

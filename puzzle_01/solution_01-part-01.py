@@ -6,6 +6,7 @@ def solution(file: str) -> int:
 
     with open(file, 'r') as infile:
         rows = [int(n) for n in infile.read().splitlines()]
+        infile.close()
 
         for line, _ in enumerate(rows):
             if rows[line] > rows[line - 1]:

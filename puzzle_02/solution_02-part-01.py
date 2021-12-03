@@ -7,6 +7,7 @@ def solution(file: str) -> int:
 
     with open(file, 'r') as infile:
         rows = [n for n in infile.read().splitlines()]
+        infile.close()
 
         for _, e in enumerate(rows):
             line = e.split(' ')
