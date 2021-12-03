@@ -11,12 +11,13 @@ def solution(file: str) -> int:
 
         for _, e in enumerate(rows):
             line = e.split(' ')
-            if 'forward' in line[0]:
-                pos_horizontal += int(line[1])
-            if 'down' in line[0]:
-                pos_vertical += int(line[1])
-            if 'up' in line[0]:
-                pos_vertical -= int(line[1])
+            match line[0]:
+                case 'forward':
+                    pos_horizontal += int(line[1])
+                case 'down':
+                    pos_vertical += int(line[1])
+                case 'up':
+                    pos_vertical -= int(line[1])
 
     return pos_horizontal * pos_vertical
 
