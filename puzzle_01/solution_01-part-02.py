@@ -1,7 +1,7 @@
 import sys
 
 
-def do(file):
+def solution(file):
     index = 0
     increased = 0
 
@@ -22,4 +22,4 @@ def do(file):
 
 
 if __name__ == '__main__':
-    do(sys.argv[1])
+    solution(sys.argv[1])

@@ -1,7 +1,7 @@
 import sys
 
 
-def do(file):
+def solution(file):
     pos_vertical = 0
     pos_horizontal = 0
 
@@ -21,4 +21,4 @@ def do(file):
 
 
 if __name__ == '__main__':
-    do(sys.argv[1])
+    solution(sys.argv[1])

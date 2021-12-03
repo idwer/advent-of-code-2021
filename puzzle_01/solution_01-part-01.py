@@ -1,7 +1,7 @@
 import sys
 
 
-def do(file):
+def solution(file):
     increased = 0
 
     with open(file) as infile:
@@ -15,4 +15,4 @@ def do(file):
 
 
 if __name__ == '__main__':
-    do(sys.argv[1])
+    solution(sys.argv[1])
