@@ -4,7 +4,7 @@ import sys
 def solution(file: str) -> int:
     increased = 0
 
-    with open(file) as infile:
+    with open(file, 'r') as infile:
         rows = [int(n) for n in infile.read().splitlines()]
 
         for line, _ in enumerate(rows):

@@ -5,7 +5,7 @@ def solution(file: str) -> int:
     pos_vertical = 0
     pos_horizontal = 0
 
-    with open(file) as infile:
+    with open(file, 'r') as infile:
         rows = [n for n in infile.read().splitlines()]
 
         for _, e in enumerate(rows):
