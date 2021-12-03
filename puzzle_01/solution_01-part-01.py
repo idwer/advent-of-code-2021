@@ -16,4 +16,9 @@ def solution(file: str) -> int:
 
 
 if __name__ == '__main__':
-    print(solution(sys.argv[1]))
+    try:
+        print(f"Solution: {solution(sys.argv[1])}")
+    except IndexError as e:
+        print("No file name to read input from was provided")
+    except FileNotFoundError as e:
+        print(f"{sys.argv[1]}: {e.args[1]}")
