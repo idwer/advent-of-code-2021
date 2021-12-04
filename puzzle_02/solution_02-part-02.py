@@ -26,7 +26,7 @@ def solution(filename: str) -> int:
 
 if __name__ == '__main__':
     try:
-        print(f"What do you get if you multiply your final horizontal position by your final depth? (invalid, WIP): {solution(sys.argv[1])}")
+        print(f"What do you get if you multiply your final horizontal position by your final depth? {solution(sys.argv[1])}")
     except IndexError as e:
         print("No file name to read input from was provided")
     except FileNotFoundError as e:
