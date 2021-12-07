@@ -4,19 +4,17 @@ def get_co2_scrubber_rating(r: list, line_width: int, column: int) -> list:
 
     ret = []
 
-    if len(list_with_zeros_common) > len(list_with_ones_common):
+    if len(list_with_ones_common) < len(list_with_zeros_common):
         ret = list_with_ones_common
+    elif len(list_with_ones_common) == len(list_with_zeros_common):
+        ret = list_with_zeros_common
     else:
         ret = list_with_zeros_common
 
-    if len(ret) == 2:
-        if ret[0] < ret[1]:
-            ret = [ret[1]]
-        else:
-            ret = [ret[1]]
-        return ret
+    if len(ret) > 1:
+        return get_co2_scrubber_rating(ret, line_width, column + 1)
 
-    return get_co2_scrubber_rating(ret, line_width, column + 1)
+    return ret
 
 
 def get_oxygen_generator_rating(r: list, line_width: int, column: int) -> list:
@@ -27,17 +25,15 @@ def get_oxygen_generator_rating(r: list, line_width: int, column: int) -> list:
 
     if len(list_with_ones_common) > len(list_with_zeros_common):
         ret = list_with_ones_common
+    elif len(list_with_ones_common) == len(list_with_zeros_common):
+        ret = list_with_ones_common
     else:
         ret = list_with_zeros_common
 
-    if len(ret) == 2:
-        if ret[0] < ret[1]:
-            ret = [ret[1]]
-        else:
-            ret = [ret[1]]
-        return ret
+    if len(ret) > 1:
+        return get_oxygen_generator_rating(ret, line_width, column + 1)
 
-    return get_oxygen_generator_rating(ret, line_width, column + 1)
+    return ret
 
 
 def solution() -> int:
