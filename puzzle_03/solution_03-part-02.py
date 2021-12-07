@@ -1,37 +1,29 @@
-def get_co2_scrubber_rating(r: list, line_width: int, column: int) -> list:
+def get_life_support_generator_rating(get_rating_for_co2: bool, r: list, line_width: int, column: int) -> list:
     list_with_ones_common = [elem for elem in r if elem[column] == '1']
     list_with_zeros_common = [elem for elem in r if elem[column] == '0']
 
     ret = []
 
-    if len(list_with_ones_common) < len(list_with_zeros_common):
-        ret = list_with_ones_common
-    elif len(list_with_ones_common) == len(list_with_zeros_common):
-        ret = list_with_zeros_common
+    if get_rating_for_co2:
+        if len(list_with_ones_common) < len(list_with_zeros_common):
+            ret = list_with_ones_common
+        elif len(list_with_ones_common) == len(list_with_zeros_common):
+            ret = list_with_zeros_common
+        else:
+            ret = list_with_zeros_common
     else:
-        ret = list_with_zeros_common
+        if len(list_with_ones_common) > len(list_with_zeros_common):
+            ret = list_with_ones_common
+        elif len(list_with_ones_common) == len(list_with_zeros_common):
+            ret = list_with_ones_common
+        else:
+            ret = list_with_zeros_common
 
     if len(ret) > 1:
-        return get_co2_scrubber_rating(ret, line_width, column + 1)
-
-    return ret
-
-
-def get_oxygen_generator_rating(r: list, line_width: int, column: int) -> list:
-    list_with_ones_common = [elem for elem in r if elem[column] == '1']
-    list_with_zeros_common = [elem for elem in r if elem[column] == '0']
-
-    ret = []
-
-    if len(list_with_ones_common) > len(list_with_zeros_common):
-        ret = list_with_ones_common
-    elif len(list_with_ones_common) == len(list_with_zeros_common):
-        ret = list_with_ones_common
-    else:
-        ret = list_with_zeros_common
-
-    if len(ret) > 1:
-        return get_oxygen_generator_rating(ret, line_width, column + 1)
+        if get_rating_for_co2:
+            return get_life_support_generator_rating(True, ret, line_width, column + 1)
+        else:
+            return get_life_support_generator_rating(False, ret, line_width, column + 1)
 
     return ret
 
@@ -43,7 +35,7 @@ def solution() -> int:
 
         line_width = len(rows[0])
 
-    return int(get_co2_scrubber_rating(rows, line_width, 0)[0], 2) * int(get_oxygen_generator_rating(rows, line_width, 0)[0], 2)
+    return int(get_life_support_generator_rating(True, rows, line_width, 0)[0], 2) * int(get_life_support_generator_rating(False, rows, line_width, 0)[0], 2)
 
 
 if __name__ == '__main__':
