@@ -1,20 +1,27 @@
+from Board import Board
+
+
 def solution() -> int:
     score = 0
+    block_size = 6
+    boards = []
 
-    random_numbers = []
-    randon_boards = []
+    rows = []
 
     with open('test_input', 'r') as infile:
     # with open('input', 'r') as infile:
         rows = [n for n in infile.read().splitlines()]
-
-        random_numbers = rows[0]
-        randon_boards = rows[2:]
-
-        print(random_numbers)
-        print(randon_boards)
-
         infile.close()
+
+    number_of_boards = int(len(rows[1:]) / block_size)
+    board_data = rows[1:]
+
+    index = 0
+    for _ in range(0, number_of_boards):
+        param = board_data[index + 1:index + block_size]
+
+        boards.append(Board(param))
+        index += block_size
 
     return score
 
