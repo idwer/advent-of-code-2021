@@ -2,7 +2,6 @@ class Board:
     tuples = []
     score = 0
     winning_number_trigger = 0
-    input_board_height = 0
 
     def get_sum_of_unmarked_numbers(self) -> int:
         ret = 0
@@ -14,45 +13,37 @@ class Board:
         return ret
 
     def mark_number(self, number: int) -> None:
-    # def mark_number(self, number: int, input_board_height: int) -> None:
-    #     self.input_board_height = input_board_height
-    # def mark_number(self, number: int) -> None:
         for e in self.tuples:
             if e[0] is number:
                 e[1] = True
 
-                # if self.has_winning_column(input_board_height) or self.has_winning_row(input_board_height):
-                #     return
-
     def get_marked_numbers(self) -> list:
         return [t for t in self.tuples if t[1]]
 
-    def has_winning_column(self, input_board_height: int) -> bool:
+    def has_winning_column(self) -> bool:
         score = 0
 
-        for i in range(0, input_board_height):
-            # print(f"column: {i + 1}")
-            for n in range(0, input_board_height ** 2, input_board_height):
+        for i in range(0, 5):
+            for n in range(0, 5 ** 2, 5):
                 # print(self.tuples[i + n])
                 if self.tuples[i + n][1]:
                     score += 1
-            if score is input_board_height:
+            if score == 5:
                 return True
 
         return False
 
-    def has_winning_row(self, input_board_height: int) -> bool:
+    def has_winning_row(self) -> bool:
         score = 0
 
-        for n in range(0, input_board_height ** 2, input_board_height):
-            # for i in range(0, len(self.tuples[0])):
-            for i in range(0, input_board_height):
-                # print(self.tuples[i + n])
-                if self.tuples[n + i][1]:
-                    score += 1
-            if score is input_board_height:
-                return True
-            # print(self.tuples[n + i])
+        for n in range(0, 5):
+            if self.tuples[n * 5 + 0][1] and \
+                self.tuples[n * 5 + 1][1] and \
+                self.tuples[n * 5 + 2][1] and \
+                self.tuples[n * 5 + 3][1] and \
+                self.tuples[n * 5 + 4][1]:
+                    print(self.tuples[n:n + 5])
+                    return True
 
         return False
 
@@ -70,7 +61,6 @@ class Board:
 
     def __init__(self, numbers: list) -> None:
     # def __init__(self, numbers: list, input_board_height: int) -> None:
-    #     self.input_board_height = input_board_height
         print(f"constructor in class Board, numbers = {numbers}")
         # print(numbers[0].split())
         self.tuples = self.parse_list(numbers)
