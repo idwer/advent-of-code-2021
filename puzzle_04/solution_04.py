@@ -51,17 +51,12 @@ def solution(filename: str) -> int:
     print(f"number of boards: {number_of_boards}")
     print(f"drawn numbers: {drawn_numbers}")
 
-    round = 0
-    index = 0
-    cap = 5
-    done = False
-
     for number in drawn_numbers:
         for board in boards:
             board.mark_number(number)
             if board.has_winning_row():
-                print(number)
-                print(board.has_winning_row())
+                return number * board.get_sum_of_unmarked_numbers()
+            if board.has_winning_column():
                 return number * board.get_sum_of_unmarked_numbers()
     return 0
 
