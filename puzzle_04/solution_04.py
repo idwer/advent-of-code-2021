@@ -5,7 +5,7 @@ def get_number_of_boards(rows: list, block_size: int) -> int:
     return int(len(rows[1:]) / block_size)
 
 
-def get_drawn_number(rows: list) -> list:
+def get_drawn_numbers(rows: list) -> list:
     return [int(n) for n in rows[0].split(',')]
 
 
@@ -31,7 +31,7 @@ def draw_numbers_per_round(drawn_numbers: list, index: int, cap: int, done: bool
     return drawn_numbers[index:cap]
 
 
-def solution(filename: str) -> int:
+def solution(filename: str, squid_must_win: bool) -> int:
     boards = []
     rows = []
 
@@ -46,21 +46,39 @@ def solution(filename: str) -> int:
     # take whitespace into account
     boards = generate_list_of_boards(number_of_boards, board_data, 5 + 1)
 
-    drawn_numbers = get_drawn_number(rows)
+    drawn_numbers = get_drawn_numbers(rows)
 
-    print(f"number of boards: {number_of_boards}")
-    print(f"drawn numbers: {drawn_numbers}")
+    if not squid_must_win:
+        for number in drawn_numbers:
+            for board in boards:
+                board.mark_number(number)
+                if board.has_winning_row_or_column(True):
+                    return number * board.get_sum_of_unmarked_numbers()
+                if board.has_winning_row_or_column(False):
+                    return number * board.get_sum_of_unmarked_numbers()
 
-    for number in drawn_numbers:
-        for board in boards:
-            board.mark_number(number)
-            if board.has_winning_row():
-                return number * board.get_sum_of_unmarked_numbers()
-            if board.has_winning_column():
-                return number * board.get_sum_of_unmarked_numbers()
-    return 0
+    if squid_must_win:
+        boards = generate_list_of_boards(number_of_boards, board_data, 5 + 1)
+
+        boards_in_winning_order = []
+
+        for number in drawn_numbers:
+            if len(boards) == len(boards_in_winning_order):
+                break
+
+            for i, board in enumerate(boards):
+                board.mark_number(number)
+                if not board.won and (board.has_winning_row_or_column(True) or board.has_winning_row_or_column(False)):
+                    boards_in_winning_order.append(board)
+
+            if len(boards) == len(boards_in_winning_order) and (board.has_winning_row_or_column(True) or board.has_winning_row_or_column(False)):
+                return number * boards_in_winning_order[len(boards_in_winning_order) - 1].get_sum_of_unmarked_numbers()
+
+    return -1
 
 
 if __name__ == '__main__':
-    print(f"What will your final score be if you choose that board? {solution('test_input')}")
-    # print(f"What will your final score be if you choose that board? {solution('input')}")
+    print(f"What will your final score be if you choose that board? test_input, first part: {solution('test_input', False)} (should be 4512)")
+    print(f"What will your final score be if you choose that board? input, first part: {solution('input', False)} (should be 39902)")
+    print(f"What will your final score be if you choose that board? test_input, second part: {solution('test_input', True)} (should be 1924)")
+    print(f"What will your final score be if you choose that board? input, second part: {solution('input', True)} (should not be 11866)")

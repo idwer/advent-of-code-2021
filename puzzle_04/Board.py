@@ -1,5 +1,6 @@
 class Board:
     tuples = []
+    won = False
 
     def get_sum_of_unmarked_numbers(self) -> int:
         ret = 0
@@ -15,30 +16,36 @@ class Board:
             if elem[0] is number:
                 elem[1] = True
 
-    def get_marked_numbers(self) -> list:
-        return [elem for elem in self.tuples if elem[1]]
+    def has_winning_row_or_column(self, horizontal: bool) -> bool:
+        if horizontal:
+            for n in range(0, 5 ** 2, 5):
+                if self.tuples[n + 0][1] and \
+                        self.tuples[n + 1][1] and \
+                        self.tuples[n + 2][1] and \
+                        self.tuples[n + 3][1] and \
+                        self.tuples[n + 4][1]:
+                    self.won = True
+                    return True
+        else:
+            for n in range(0, 5):
+                if self.tuples[n + 0 * 5][1] and \
+                        self.tuples[n + 1 * 5][1] and \
+                        self.tuples[n + 2 * 5][1] and \
+                        self.tuples[n + 3 * 5][1] and \
+                        self.tuples[n + 4 * 5][1]:
+                    self.won = True
+                    return True
+        return False
 
-    def has_winning_column(self) -> bool:
+    def has_middle_column_marked(self) -> bool:
         score = 0
 
         for n in range(0, 5 ** 2, 5):
-            if self.tuples[n + 0][1] and \
-                    self.tuples[n + 1][1] and \
-                    self.tuples[n + 2][1] and \
-                    self.tuples[n + 3][1] and \
-                    self.tuples[n + 4][1]:
-                return True
+            if self.tuples[2 + n][1]:
+                score += 1
 
-        return False
-
-    def has_winning_row(self) -> bool:
-        for n in range(0, 5):
-            if self.tuples[n * 5 + 0][1] and \
-                    self.tuples[n * 5 + 1][1] and \
-                    self.tuples[n * 5 + 2][1] and \
-                    self.tuples[n * 5 + 3][1] and \
-                    self.tuples[n * 5 + 4][1]:
-                return True
+        if score == 5:
+            return True
 
         return False
 
