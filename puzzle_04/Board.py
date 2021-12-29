@@ -37,18 +37,6 @@ class Board:
                     return True
         return False
 
-    def has_middle_column_marked(self) -> bool:
-        score = 0
-
-        for n in range(0, 5 ** 2, 5):
-            if self.tuples[2 + n][1]:
-                score += 1
-
-        if score == 5:
-            return True
-
-        return False
-
     def parse_list(self, rows: list) -> list:
         items = []
 
