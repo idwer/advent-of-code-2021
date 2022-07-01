@@ -1,6 +1,5 @@
 use std::env;
 use std::fs;
-use std::path::Path;
 
 fn solve_puzzle_01(filename: String) -> i64 {
     let mut increased = 0;
@@ -13,7 +12,7 @@ fn solve_puzzle_01(filename: String) -> i64 {
         numbers.push(line.parse::<i32>().unwrap());
     }
 
-    for (pos, e) in numbers.iter().enumerate() {
+    for (pos, _) in numbers.iter().enumerate() {
         if pos > 0 && numbers[pos - 1] < numbers[pos] {
                 increased += 1;
         }
