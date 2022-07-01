@@ -1,6 +1,6 @@
 use std::fs;
 
-pub fn solve_puzzle_02(filename: String) -> i64 {
+pub fn solve_part_2(filename: String) -> i64 {
     let mut increased = 0;
 
     let input = fs::read_to_string(filename).expect("error opening file");
