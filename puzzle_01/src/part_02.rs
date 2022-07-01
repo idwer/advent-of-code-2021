@@ -2,6 +2,7 @@ use std::fs;
 
 pub fn solve_part_2(filename: String) -> i64 {
     let mut increased = 0;
+    let mut index = 0;
 
     let input = fs::read_to_string(filename).expect("error opening file");
 
@@ -12,9 +13,15 @@ pub fn solve_part_2(filename: String) -> i64 {
     }
 
     for (pos, _) in numbers.iter().enumerate() {
-        if pos > 0 && numbers[pos - 1] < numbers[pos] {
-                increased += 1;
+        let sum_window_first = &numbers[index..index + 3];
+
+        index += 1;
+        let sum_window_second = &numbers[index..index + 3];
+
+        if sum_window_first < sum_window_second {
+            increased += 1;
         }
+
     }
 
     increased
