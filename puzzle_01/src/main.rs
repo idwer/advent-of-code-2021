@@ -1,10 +1,11 @@
+use std::env;
 use std::fs;
 use std::path::Path;
 
-fn solve_puzzle_01() -> i64 {
+fn solve_puzzle_01(filename: String) -> i64 {
     let mut increased = 0;
 
-    let input = fs::read_to_string("test_input").expect("error opening file");
+    let input = fs::read_to_string(filename).expect("error opening file");
 
     let mut numbers: Vec<i32> = Vec::new();
 
@@ -22,7 +23,10 @@ fn solve_puzzle_01() -> i64 {
 }
 
 fn main() {
-    let result = solve_puzzle_01();
+    let args:Vec<String> = env::args().collect();
+    let filename = &args[1];
+
+    let result = solve_puzzle_01(filename.to_string());
 
     println!("Solution for puzzle 01: {}", result);
 }
