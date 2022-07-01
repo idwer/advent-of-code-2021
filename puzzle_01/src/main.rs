@@ -8,9 +8,23 @@ fn solve_puzzle_01_input() -> i64 {
 }
 
 fn solve_puzzle_01_test_input() -> i64 {
-    let input = fs::read_to_string(Path::new("test_input"));
+    let mut increased = 0;
 
-    0
+    let input = fs::read_to_string("test_input").expect("error opening file");
+
+    let mut numbers: Vec<i32> = Vec::new();
+
+    for line in input.lines() {
+        numbers.push(line.parse::<i32>().unwrap());
+    }
+
+    for (pos, e) in numbers.iter().enumerate() {
+        if pos > 0 && numbers[pos - 1] < numbers[pos] {
+                increased += 1;
+        }
+    }
+
+    increased
 }
 
 fn solve_puzzle_02_input() -> i64 {
