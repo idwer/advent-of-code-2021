@@ -11,9 +11,9 @@ pub fn solve_part_1(filename: String) -> i64 {
         numbers.push(line.parse::<i32>().unwrap());
     }
 
-    for (pos, _) in numbers.iter().enumerate() {
-        if pos > 0 && numbers[pos - 1] < numbers[pos] {
-                increased += 1;
+    for window in numbers.windows(2) {
+        if window[0] < window[1] {
+            increased += 1;
         }
     }
 
