@@ -4,7 +4,7 @@ build:
 	cargo build
 
 run:
-	cargo run test_input
+	cargo run
 
 test:
 	cargo test

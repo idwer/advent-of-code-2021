@@ -1,6 +1,3 @@
-import sys
-
-
 def solution(file: str) -> int:
     index = 0
     increased = 0
@@ -24,9 +21,5 @@ def solution(file: str) -> int:
 
 
 if __name__ == '__main__':
-    try:
-        print(f"Solution: {solution(sys.argv[1])}")
-    except IndexError as e:
-        print("No file name to read input from was provided")
-    except FileNotFoundError as e:
-        print(f"{sys.argv[1]}: {e.args[1]}")
+    print(f'Solution: {solution("input" )}')
+    print(f'Solution: {solution("test_input" )} - using test_input')
