@@ -10,8 +10,8 @@ def solution(filename: str) -> int:
         rows = [n for n in infile.read().splitlines()]
         infile.close()
 
-        for _, e in enumerate(rows):
-            line = e.split(' ')
+        for row in rows:
+            line = row.split(' ')
             match line[0]:
                 case 'forward':
                     pos_vertical += aim * int(line[1])
