@@ -12,6 +12,7 @@ def solution(file: str) -> int:
         for line, _ in enumerate(rows):
             sum_window_first = sum(rows[index:index + 3])
 
+            # slide the window
             index += 1
 
             sum_window_second = sum(rows[index:index + 3])
