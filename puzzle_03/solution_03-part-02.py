@@ -32,5 +32,5 @@ def solution(filename: str) -> int:
 
 
 if __name__ == '__main__':
-    # print(f"What is the life support rating of the submarine? {solution('test_input')}")
+    print(f"What is the life support rating of the submarine? {solution('test_input')} - using test_input")
     print(f"What is the life support rating of the submarine? {solution('input')}")
