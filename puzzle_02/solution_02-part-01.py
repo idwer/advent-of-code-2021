@@ -23,9 +23,5 @@ def solution(file: str) -> int:
 
 
 if __name__ == '__main__':
-    try:
-        print(f"What do you get if you multiply your final horizontal position by your final depth? {solution(sys.argv[1])}")
-    except IndexError as e:
-        print("No file name to read input from was provided")
-    except FileNotFoundError as e:
-        print(f"{sys.argv[1]}: {e.args[1]}")
+    print(f'What do you get if you multiply your final horizontal position by your final depth? {solution("input")}')
+    print(f'What do you get if you multiply your final horizontal position by your final depth? {solution("test_input")} - using test_input')
