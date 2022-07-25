@@ -29,3 +29,14 @@ pub fn solve_part_2(filename: String) -> i64 {
 
     increased
 }
+
+#[cfg(test)]
+mod tests_p01p2 {
+    use super::*;
+
+    #[test]
+    fn test_p01p2() {
+        assert_eq!(solve_part_2("input".to_string()), 1781);
+        assert_eq!(solve_part_2("test_input".to_string()), 5);
+    }
+}
