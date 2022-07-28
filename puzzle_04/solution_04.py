@@ -81,4 +81,4 @@ if __name__ == '__main__':
     print(f"What will your final score be if you choose that board? test_input, first part: {solution('test_input', False)} (should be 4512)")
     print(f"What will your final score be if you choose that board? input, first part: {solution('input', False)} (should be 39902)")
     print(f"What will your final score be if you choose that board? test_input, second part: {solution('test_input', True)} (should be 1924)")
-    print(f"What will your final score be if you choose that board? input, second part: {solution('input', True)} (should not be 11866)")
+    print(f"What will your final score be if you choose that board? input, second part: {solution('input', True)} (should be 26936)")
