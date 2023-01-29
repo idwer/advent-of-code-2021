@@ -6,7 +6,7 @@ fn get_rate(rows: Vec<&str>, line_width: i8, gamma: bool) -> u64 {
         let mut ones = 0;
 
         for row in &rows {
-            let tmp = row.chars().nth(position.try_into().unwrap() );
+            let tmp = row.chars().nth(position.try_into().unwrap());
 
             match tmp {
                 Some(n) if n == '0' => zeroes += 1,
@@ -38,18 +38,18 @@ fn solution1(rows: &Vec<&str>) -> u64 {
 
 pub fn solve_part_1() -> u64 {
     let instructions: Vec<_> = include_str!("../input")
-    .lines()
-    .filter(|l| !l.is_empty())
-    .collect();
+        .lines()
+        .filter(|l| !l.is_empty())
+        .collect();
 
     solution1(&instructions)
 }
 
 pub fn solve_part_1_sample() -> u64 {
     let instructions: Vec<_> = include_str!("../test_input")
-    .lines()
-    .filter(|l| !l.is_empty())
-    .collect();
+        .lines()
+        .filter(|l| !l.is_empty())
+        .collect();
 
     solution1(&instructions)
 }
