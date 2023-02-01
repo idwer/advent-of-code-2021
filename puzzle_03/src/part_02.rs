@@ -65,14 +65,14 @@ fn solution2(rows: &Vec<&str>) -> u64 {
         panic!("too many elements in o2_rate");
     }
 
-    match u64::from_str_radix(co2_rate[0].to_string().as_str(), 2) {
+    match parse_radix(co2_rate[0]) {
         Ok(ok) => {
             co2 += ok;
         }
         _ => (),
     }
 
-    match u64::from_str_radix(oxygen_rate[0].to_string().as_str(), 2) {
+    match parse_radix(oxygen_rate[0]) {
         Ok(ok) => {
             o2 += ok;
         }
