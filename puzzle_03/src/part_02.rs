@@ -6,7 +6,7 @@ fn parse_radix(radix: &str) -> Result<u64, Box<dyn std::error::Error>> {
     }
 }
 
-fn reduce_vector(get_rating_for_co2: bool, rows: Vec<&str>, line_width: u8, col_pos: u8) -> Vec<&str> {
+fn reduce_vector(get_rating_for_co2: bool, rows: Vec<&str>, col_pos: u8) -> Vec<&str> {
     let mut nullen = Vec::<_>::new();
     let mut enen = Vec::<_>::new();
 
@@ -39,21 +39,19 @@ fn reduce_vector(get_rating_for_co2: bool, rows: Vec<&str>, line_width: u8, col_
     }
 }
 
-fn get_life_support_generator_rating<'a>(get_rating_for_co2: bool, rows: Vec<&str>, line_width: u8, col_pos: u8) -> Vec<&str> {
-    let mut x = reduce_vector(get_rating_for_co2, rows.clone(), line_width, col_pos);
+fn get_life_support_generator_rating<'a>(get_rating_for_co2: bool, rows: Vec<&str>, col_pos: u8) -> Vec<&str> {
+    let x = reduce_vector(get_rating_for_co2, rows.clone(), col_pos);
 
     if x.len() > 1 {
-        return get_life_support_generator_rating(get_rating_for_co2, x.clone(), line_width, col_pos + 1);
+        return get_life_support_generator_rating(get_rating_for_co2, x.clone(), col_pos + 1);
     }
 
     x
 }
 
 fn solution2(rows: &Vec<&str>) -> u64 {
-    let line_width = (rows[0].len()).try_into().unwrap();
-
-    let co2_rate = get_life_support_generator_rating(true, rows.to_vec(), line_width, 0);
-    let oxygen_rate = get_life_support_generator_rating(false, rows.to_vec(), line_width, 0);
+    let co2_rate = get_life_support_generator_rating(true, rows.to_vec(),  0);
+    let oxygen_rate = get_life_support_generator_rating(false, rows.to_vec(),  0);
 
     let mut co2: u64 = 0;
     let mut o2: u64 = 0;
