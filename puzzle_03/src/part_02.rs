@@ -6,7 +6,9 @@ fn parse_radix(radix: &str) -> Result<u64, Box<dyn std::error::Error>> {
     }
 }
 
-fn reduce_vector(get_rating_for_co2: bool, rows: Vec<&str>, col_pos: u8) -> Vec<&str> {
+fn get_life_support_generator_rating(get_rating_for_co2: bool, rows: Vec<&str>, col_pos: u8) -> Vec<&str> {
+    let mut ret = Vec::<_>::new();
+
     let mut nullen = Vec::<_>::new();
     let mut enen = Vec::<_>::new();
 
@@ -26,21 +28,17 @@ fn reduce_vector(get_rating_for_co2: bool, rows: Vec<&str>, col_pos: u8) -> Vec<
 
     if get_rating_for_co2 {
         if nullen.len() <= enen.len() {
-            nullen
+            ret = nullen
         } else {
-            enen
+            ret = enen
         }
     } else {
         if enen.len() >= nullen.len() {
-            enen
+            ret = enen
         } else {
-            nullen
+            ret =nullen
         }
     }
-}
-
-fn get_life_support_generator_rating<'a>(get_rating_for_co2: bool, rows: Vec<&str>, col_pos: u8) -> Vec<&str> {
-    let ret = reduce_vector(get_rating_for_co2, rows.clone(), col_pos);
 
     if ret.len() > 1 {
         return get_life_support_generator_rating(get_rating_for_co2, ret.clone(), col_pos + 1);
