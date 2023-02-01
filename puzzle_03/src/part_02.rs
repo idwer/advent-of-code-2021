@@ -40,13 +40,13 @@ fn reduce_vector(get_rating_for_co2: bool, rows: Vec<&str>, col_pos: u8) -> Vec<
 }
 
 fn get_life_support_generator_rating<'a>(get_rating_for_co2: bool, rows: Vec<&str>, col_pos: u8) -> Vec<&str> {
-    let x = reduce_vector(get_rating_for_co2, rows.clone(), col_pos);
+    let ret = reduce_vector(get_rating_for_co2, rows.clone(), col_pos);
 
-    if x.len() > 1 {
-        return get_life_support_generator_rating(get_rating_for_co2, x.clone(), col_pos + 1);
+    if ret.len() > 1 {
+        return get_life_support_generator_rating(get_rating_for_co2, ret.clone(), col_pos + 1);
     }
 
-    x
+    ret
 }
 
 fn solution2(rows: &Vec<&str>) -> u64 {
