@@ -41,7 +41,7 @@ fn get_life_support_generator_rating(get_rating_for_co2: bool, rows: Vec<&str>, 
     }
 
     if ret.len() > 1 {
-        return get_life_support_generator_rating(get_rating_for_co2, ret.clone(), col_pos + 1);
+        return get_life_support_generator_rating(get_rating_for_co2, ret, col_pos + 1);
     }
 
     ret
