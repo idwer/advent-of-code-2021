@@ -36,7 +36,7 @@ fn get_life_support_generator_rating(get_rating_for_co2: bool, rows: Vec<&str>, 
         if enen.len() >= nullen.len() {
             ret = enen
         } else {
-            ret =nullen
+            ret = nullen
         }
     }
 
@@ -48,8 +48,8 @@ fn get_life_support_generator_rating(get_rating_for_co2: bool, rows: Vec<&str>, 
 }
 
 fn solution2(rows: &Vec<&str>) -> u64 {
-    let co2_rate = get_life_support_generator_rating(true, rows.to_vec(),  0);
-    let oxygen_rate = get_life_support_generator_rating(false, rows.to_vec(),  0);
+    let co2_rate = get_life_support_generator_rating(true, rows.to_vec(), 0);
+    let oxygen_rate = get_life_support_generator_rating(false, rows.to_vec(), 0);
 
     let mut co2: u64 = 0;
     let mut o2: u64 = 0;
