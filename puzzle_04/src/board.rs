@@ -47,13 +47,15 @@ impl Board {
 
         if horizontal {
             for n in (0..BOARD_DIMENSION.pow(2) + 1).step_by(BOARD_DIMENSION) {
-                if *z[n as usize + 0].1 &&
-                    *z[n as usize + 1].1 &&
-                    *z[n as usize + 2].1 &&
-                    *z[n as usize + 3].1 &&
-                    *z[n as usize + 4].1 {
-                    self.won = true;
-                    return true;
+                if n < z.len() {
+                    if *z[n as usize + 0].1 &&
+                        *z[n as usize + 1].1 &&
+                        *z[n as usize + 2].1 &&
+                        *z[n as usize + 3].1 &&
+                        *z[n as usize + 4].1 {
+                        self.won = true;
+                        return true;
+                    }
                 }
             }
 
