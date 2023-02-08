@@ -24,13 +24,6 @@ def generate_list_of_boards(number_of_boards: int, board_data: list, block_lengt
     return boards
 
 
-def draw_numbers_per_round(drawn_numbers: list, index: int, cap: int, done: bool) -> list:
-    if done:
-        return drawn_numbers[index:]
-
-    return drawn_numbers[index:cap]
-
-
 def solution(filename: str, squid_must_win: bool) -> int:
     boards = []
     rows = []
