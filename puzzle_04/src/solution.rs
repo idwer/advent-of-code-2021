@@ -48,7 +48,7 @@ fn solution(rows: &Vec<&str>, squid_must_win: bool) -> u64 {
 
     if !squid_must_win {
         for number in &drawn_numbers {
-            for mut board in &list_of_boards {
+            for board in &mut list_of_boards {
                 board.mark_number(number.parse::<u8>().unwrap());
 
                 // https://www.google.com/search?q=%22so+the+data+it+refers+to+cannot+be+borrowed+as+mutable%22&client=ubuntu&hs=rau&channel=fs&ei=vMbiY9zIHNP4sAfr7LugBA&ved=0ahUKEwjcluWnsYT9AhVTPOwKHWv2DkQQ4dUDCA4&uact=5&oq=%22so+the+data+it+refers+to+cannot+be+borrowed+as+mutable%22&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIHCAAQHhDxBDIGCAAQBRAeMgYIABAFEB4yBggAEAUQHjoKCAAQRxDWBBCwAzoICAAQBxAeEBM6CwgAEAcQHhDxBBATOgkIABAeEPEEEBNKBAhBGABKBAhGGABQyBdYkyZg7CloAXABeACAAXOIAY4DkgEDMi4ymAEAoAEByAEIwAEB&sclient=gws-wiz-serp
