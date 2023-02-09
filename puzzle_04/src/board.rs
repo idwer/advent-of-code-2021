@@ -173,12 +173,17 @@ mod tests_p04p1 {
         // let mut cells_btreemap = BTreeMap::new();
         let mut cells_btreemap = Rc::new(RefCell::new(BTreeMap::new())); //Rc<BTreeMap>;
 
-        cells_btreemap.get_mut().insert(13, false);
+        // cells_btreemap.get_mut().insert(13, false);
+        cells_btreemap.into_inner().insert(13, false);
         // cells_btreemap.insert(13, true);
-        cells_btreemap.get_mut().insert(1, false);
-        cells_btreemap.get_mut().insert(22, false);
-        cells_btreemap.get_mut().insert(7, false);
-        cells_btreemap.get_mut().insert(4, false);
+        // cells_btreemap.get_mut().insert(1, false);
+        cells_btreemap.into_inner().insert(1, false);
+        // cells_btreemap.get_mut().insert(22, false);
+        cells_btreemap.into_inner().insert(22, false);
+        // cells_btreemap.get_mut().insert(7, false);
+        cells_btreemap.into_inner().insert(7, false);
+        // cells_btreemap.get_mut().insert(4, false);
+        cells_btreemap.into_inner().insert(4, false);
         // cells_btreemap.insert(4, true);
 
         /*
