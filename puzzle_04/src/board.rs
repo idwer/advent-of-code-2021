@@ -41,10 +41,14 @@ impl Board {
     }
 
     pub fn mark_number(&mut self, number: u8) {
-        let mut test = self.cells.borrow();
+        // let mut test = self.cells.borrow();
+        let mut test = &self.cells;
 
         // for mut cell in self.cells.clone() {
-            for mut cell in test.iter() {
+        //     for mut cell in test.iter() {
+            for mut cell in test.borrow().iter() {
+            // for mut cell in test {
+
             // println!("cell, 1/2: {:?}", cell);
             // help: consider dereferencing the borrow
             //     |
@@ -65,7 +69,9 @@ impl Board {
                 // *self.cells.get_mut(&number).unwrap() = true;
 
                 // *self.cells.get_mut(&number).unwrap() = !self.cells.get_key_value(&number).unwrap().1;
-                *test.get_mut(&number).unwrap() = !test.get_key_value(&number).unwrap().1;
+                // *test.get_mut(&number).unwrap() = !test.get_key_value(&number).unwrap().1;
+                *test.into_inner().get_mut(&number).unwrap() = !test.into_inner().get_key_value(&number).unwrap().1;
+
                 // https://www.programiz.com/rust/hashmap
                 // let _ = &self.cells.insert(number, true);
                 // println!("{:?}", &self.cells.insert(number, true));
