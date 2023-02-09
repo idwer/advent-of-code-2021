@@ -1,8 +1,6 @@
 use std::collections::HashMap;
 
-// #[derive(Copy, Clone, Debug)]
-// #[derive(Clone, Debug)]
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Board {
     pub cells: HashMap<u8, bool>,
     pub won: bool,
