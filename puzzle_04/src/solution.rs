@@ -1,8 +1,10 @@
 use std::borrow::Borrow;
+use std::cell::RefCell;
 use crate::board;
 use crate::board::{Board, BOARD_DIMENSION};
 // use std::borrow::Borrow;
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
+use std::rc::Rc;
 
 // fn get_number_of_boards(rows: Vec<&str>) -> usize {
 fn get_number_of_boards(rows: Vec<&str>, block_size: usize) -> usize {
@@ -46,13 +48,17 @@ fn generate_list_of_boards(
             let cells = &board_data[n..n + BOARD_DIMENSION];
 
             let mut board = Board {
-                cells: HashMap::new(),
+                // cells: HashMap::new(),
+                // cells: BTreeMap::new(),
+                cells: Rc::new(RefCell::new(BTreeMap::new())),
+                // cells: BTreeMap::new(),
                 won: false,
             };
 
             for cells in cells {
                 for cell in cells.split_whitespace() {
-                    board.cells.insert(cell.parse::<u8>().unwrap(), false);
+                    // board.cells.insert(cell.parse::<u8>().unwrap(), false);
+                    board.cells.into_inner().insert(cell.parse::<u8>().unwrap(), false);
                 }
             }
 
@@ -120,6 +126,8 @@ fn solution(rows: &Vec<&str>, squid_must_win: bool) -> u64 {
     // todo: unfinished
     if squid_must_win {
         let mut boards_in_winning_order: Vec<Board> = Vec::new();
+        let mut list_of_boards_len = list_of_boards.len();
+        let mut boards_in_winning_order_len = boards_in_winning_order.len();
 
         for number in drawn_numbers {
             // println!(
@@ -129,7 +137,8 @@ fn solution(rows: &Vec<&str>, squid_must_win: bool) -> u64 {
 
 
 
-            if list_of_boards.len() == boards_in_winning_order.len() {
+            // if list_of_boards.len() == boards_in_winning_order.len() {
+            if list_of_boards_len == boards_in_winning_order.len() {
                 println!("breaking");
                 break;
             }
@@ -166,17 +175,20 @@ fn solution(rows: &Vec<&str>, squid_must_win: bool) -> u64 {
                     //     board.has_winning_row_or_column(true),
                     //     board.has_winning_row_or_column(false)
                     // );
-                    boards_in_winning_order.push(board);
+                    boards_in_winning_order.push(board.clone());
                 }
 
-                if list_of_boards.len() == boards_in_winning_order.len() &&
+                // if list_of_boards.len() == boards_in_winning_order.len() &&
+                // if list_of_boards_len == boards_in_winning_order.len() &&
+                if list_of_boards_len == boards_in_winning_order_len &&
                     board.has_winning_row_or_column(true) ||
                     board.has_winning_row_or_column(false) {
 
                     // return number.parse::<u64>().unwrap()
                     println!("\n\nlist_of_boards, 2/3 afterwards: {:?}\n", list_of_boards);
                     return number as u64
-                        * boards_in_winning_order[boards_in_winning_order.len()]
+                        // * boards_in_winning_order[boards_in_winning_order.len()]
+                        * boards_in_winning_order[boards_in_winning_order_len - 1]
                         // * boards_in_winning_order[boards_in_winning_order.len() - 1]
                         .get_sum_of_unmarked_numbers();
                 }
