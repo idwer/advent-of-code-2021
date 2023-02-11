@@ -1,17 +1,6 @@
-use std::cell::RefCell;
-use std::collections::{BTreeMap, HashMap, HashSet};
-use std::rc::Rc;
-
-// #[derive(Copy, Clone, Debug)]
 #[derive(Clone, Debug)]
-// #[derive(Debug)]
 pub struct Board {
-    // pub cells: HashMap<u8, bool>,
-    // pub cells: BTreeMap<u8, bool>,
-    pub cells: Rc<RefCell<BTreeMap<u8, bool>>>,
-
-    // pub test: Vec<u8, bool>,
-    // pub cells: BTreeMap<u8, bool>,
+    pub cells: Vec<(u64, bool)>,
     pub won: bool,
 }
 
@@ -21,99 +10,101 @@ impl Board {
     pub fn get_sum_of_unmarked_numbers(&mut self) -> u64 {
         let mut counter = 0;
 
-        let test = &self.cells.borrow();
+        // println!("get_sum_of_unmarked_numbers() | counter = {:?}", counter);
 
-        // for cell in &self.cells {
-            for cell in test.iter() {
-        // for cell in &mut self.cells {
-            if cell.1 == &false {
+        for cell in &self.cells {
+            // println!("board.rs:16 | get_sum_of_unmarked_numbers () cell = {:?}", cell);
+
+            if !cell.1 {
+
                 counter += cell.0;
             }
-            // if *cell.1 {
-            //     continue
-            // } else {
-            //     counter += cell.0
-            // }
         }
 
-        println!("board.rs:get_sum_of_unmarked_numbers () ret = {}", counter);
+        // println!("board.rs:get_sum_of_unmarked_numbers () ret = {}", counter);
         counter as u64
     }
 
-    pub fn mark_number(&mut self, number: u8) {
-        // let mut test = self.cells.borrow();
-        let mut test = &self.cells;
+    pub fn mark_number(&mut self, number: u64) {
+        // println!("board.rs:mark_number() cells (before) = {:?}", &self.cells[0..13]);
+        // println!("board.rs:mark_number() cells (before) = {:?}\n", &self.cells[13..]);
 
-        // for mut cell in self.cells.clone() {
-        //     for mut cell in test.iter() {
-            for mut cell in test.borrow().iter() {
-            // for mut cell in test {
+        let mut tmp = self.cells.clone();
+        let mut index = 0;
 
-            // println!("cell, 1/2: {:?}", cell);
-            // help: consider dereferencing the borrow
-            //     |
-            // 54  |             if number == *cell.0 {
-            //     |                          +
-            if number != *cell.0 {
-                // println!("\n\nmark_number: miss {} \n\n", number);
-            }
-            if number == *cell.0 {
-                // 59 |                 cell.1 = true;
-                //    |                 ------   ^^^^
-                //    |                 |        |
-                //    |                 |        expected `&bool`, found `bool`
-                //    |                 |        help: consider borrowing here: `&true`
-                //    |                 expected due to the type of this binding
-                // cell.1 = &true;
+        for cell in &self.cells {
+            if cell.0 == number {
+                let mut tmpcell = cell.clone();
 
-                // *self.cells.get_mut(&number).unwrap() = true;
+                // println!("board.rs:mark_number() number = {:?} old = {:?} new = {:?}", number, tmpcell.1, !tmpcell.1);
 
-                // *self.cells.get_mut(&number).unwrap() = !self.cells.get_key_value(&number).unwrap().1;
-                // *test.get_mut(&number).unwrap() = !test.get_key_value(&number).unwrap().1;
-                *test.into_inner().get_mut(&number).unwrap() = !test.into_inner().get_key_value(&number).unwrap().1;
+                tmpcell.1 = !tmpcell.1;
 
-                // https://www.programiz.com/rust/hashmap
-                // let _ = &self.cells.insert(number, true);
-                // println!("{:?}", &self.cells.insert(number, true));
-                // println!("{:?}", self.cells.get(&number));
-
-                if *cell.1 {
-                    println!("\n\nmark_number: hit {} {:?}\n\n", number, &self.cells);
-                    println!("\n\nmark_number: hit {} {:?}\n\n", number, cell);
+                if tmpcell.1 {
+                    // println!("board.rs:mark_number() number = {:?} cell.1 = {:?}", number, cell.1);
                 }
-                // return;
+
+                tmp[index] = tmpcell.clone();
+
+                // if tmpcell.1 {
+                //     println!("board.rs:mark_number() tmp (after) = {:?} ", tmp);
+                //     println!("board.rs:mark_number() cells (after) = {:?} ", self.cells);
+                //
+                // }
+
+
+                // panic!();
             }
-            // println!("cell, 2/2: {:?}", cell);
+
+            index += 1;
         }
-        // println!("\n\nmark_number: self.cells = {:?}\n\n", self.cells);
+
+        self.cells = tmp.clone();
+
+        // println!("{}", self.cells.len());
+
+        // println!("board.rs:mark_number() tmp (after) = {:?} ", tmp);
+        // println!("board.rs:mark_number() cells (after) = {:?}", &self.cells[0..13]);
+        // println!("board.rs:mark_number() cells (after) = {:?}\n", &self.cells[13..]);
+        // panic!();
     }
 
     pub fn has_winning_row_or_column(&mut self, horizontal: bool) -> bool {
-        // let list_of_cells = Vec::from_iter(self.cells.iter());
-        let test = self.cells.borrow();
+        let test = &self.cells;
         let list_of_cells = Vec::from_iter(test.iter());
 
-        // println!("list_of_cells = {:?}", list_of_cells);
-        // println!("z.len() = {}", z.len());
+        // println!("test: {:?}", test);
+        // println!("list_of_cells: {:?}", list_of_cells);
 
         if horizontal {
             for n in (0..BOARD_DIMENSION.pow(2) + 1).step_by(BOARD_DIMENSION) {
-                if n < list_of_cells.len() {
-                    // println!("board.rs:55");
-                    if *list_of_cells[n as usize + 0].1
-                    && *list_of_cells[n as usize + 1].1
-                    && *list_of_cells[n as usize + 2].1
-                    && *list_of_cells[n as usize + 3].1
-                    && *list_of_cells[n as usize + 4].1
+                // println!("has_winning_row_or_column() | horizontal = {:?} | list_of_cells.len() = {:?} n = {:?} list_of_cells = {:?}",
+                //          horizontal, list_of_cells.len(), n, list_of_cells);
+
+                if n <= list_of_cells.len() - BOARD_DIMENSION {
+                    // println!("board.rs:51");
+                    // println!("board.rs:52 | has_winning_row_or_column() | len = {:?} n = {:?} | tuples: {:?} {:?} {:?} {:?} {:?}", list_of_cells.len(), n,
+                    //          list_of_cells[n as usize + 0],
+                    //          list_of_cells[n as usize + 1],
+                    //          list_of_cells[n as usize + 2],
+                    //          list_of_cells[n as usize + 3],
+                    //          list_of_cells[n as usize + 4]
+                    // );
+                    // panic!("okee dag");
+                    if list_of_cells[n as usize + 0].1
+                    && list_of_cells[n as usize + 1].1
+                    && list_of_cells[n as usize + 2].1
+                    && list_of_cells[n as usize + 3].1
+                    && list_of_cells[n as usize + 4].1
                     {
-                        println!("board.rs:has_winning_row_or_column() | horizontal: {} {} {} {} {} {}",
-                            horizontal,
-                                 list_of_cells[n as usize + 0].1,
-                                 list_of_cells[n as usize + 1].1,
-                                 list_of_cells[n as usize + 2].1,
-                                 list_of_cells[n as usize + 3].1,
-                                 list_of_cells[n as usize + 4].1,
-                        );
+                        // println!("board.rs:97");
+                        // println!("has_winning_row_or_column() | len = {:?} n = {:?} | tuples: {:?} {:?} {:?} {:?} {:?}", list_of_cells.len(), n,
+                        //          list_of_cells[n as usize + 0],
+                        //          list_of_cells[n as usize + 1],
+                        //          list_of_cells[n as usize + 2],
+                        //          list_of_cells[n as usize + 3],
+                        //          list_of_cells[n as usize + 4]
+                        // );
 
                         self.won = true;
                         return true;
@@ -122,22 +113,22 @@ impl Board {
             }
         } else {
             for n in 0..BOARD_DIMENSION {
-                // println!("board.rs:69");
-                if *list_of_cells[n as usize + 0 * BOARD_DIMENSION].1
-                    && *list_of_cells[n as usize + 1 * BOARD_DIMENSION].1
-                    && *list_of_cells[n as usize + 2 * BOARD_DIMENSION].1
-                    && *list_of_cells[n as usize + 3 * BOARD_DIMENSION].1
-                    && *list_of_cells[n as usize + 4 * BOARD_DIMENSION].1
+                // println!("has_winning_row_or_column() | horizontal = {:?} | list_of_cells.len() = {:?} n = {:?} list_of_cells = {:?}",
+                //          horizontal, list_of_cells.len(), n, list_of_cells);
+                if list_of_cells[n as usize + 0 * BOARD_DIMENSION].1
+                && list_of_cells[n as usize + 1 * BOARD_DIMENSION].1
+                && list_of_cells[n as usize + 2 * BOARD_DIMENSION].1
+                && list_of_cells[n as usize + 3 * BOARD_DIMENSION].1
+                && list_of_cells[n as usize + 4 * BOARD_DIMENSION].1
                 {
-                    println!("board.rs:has_winning_row_or_column() | horizontal: {} {} {} {} {} {}",
-                             horizontal,
-                             list_of_cells[n as usize + 0].1,
-                             list_of_cells[n as usize + 1].1,
-                             list_of_cells[n as usize + 2].1,
-                             list_of_cells[n as usize + 3].1,
-                             list_of_cells[n as usize + 4].1,
-                    );
-
+                    // println!("board.rs:121");
+                    // println!("board.rs:122 | has_winning_row_or_column() | len = {:?} n = {:?} | tuples: {:?} {:?} {:?} {:?} {:?}", list_of_cells.len(), n,
+                    //          list_of_cells[n as usize + 0 * BOARD_DIMENSION],
+                    //          list_of_cells[n as usize + 1 * BOARD_DIMENSION],
+                    //          list_of_cells[n as usize + 2 * BOARD_DIMENSION],
+                    //          list_of_cells[n as usize + 3 * BOARD_DIMENSION],
+                    //          list_of_cells[n as usize + 4 * BOARD_DIMENSION]
+                    // );
 
                     self.won = true;
                     return true;
@@ -166,66 +157,165 @@ impl Board {
     // a/the constructor ( __init__() ) goes here?
 }
 
-
 #[cfg(test)]
-mod tests_p04p1 {
-    use std::borrow::Borrow;
-    use std::cell::RefCell;
-    use std::rc::Rc;
+mod tests {
     use super::*;
 
     #[test]
-    fn test_p04p1() {
-        // let mut cells_btreemap = BTreeMap::new();
-        let mut cells_btreemap = Rc::new(RefCell::new(BTreeMap::new())); //Rc<BTreeMap>;
-
-        // cells_btreemap.get_mut().insert(13, false);
-        cells_btreemap.into_inner().insert(13, false);
-        // cells_btreemap.insert(13, true);
-        // cells_btreemap.get_mut().insert(1, false);
-        cells_btreemap.into_inner().insert(1, false);
-        // cells_btreemap.get_mut().insert(22, false);
-        cells_btreemap.into_inner().insert(22, false);
-        // cells_btreemap.get_mut().insert(7, false);
-        cells_btreemap.into_inner().insert(7, false);
-        // cells_btreemap.get_mut().insert(4, false);
-        cells_btreemap.into_inner().insert(4, false);
-        // cells_btreemap.insert(4, true);
-
-        /*
-                cells_btreemap.borrow_mut().insert(13, false);
-                // cells_btreemap.insert(13, true);
-                cells_btreemap.borrow_mut().insert(1, false);
-                cells_btreemap.borrow_mut().insert(22, false);
-                cells_btreemap.borrow_mut().insert(7, false);
-                cells_btreemap.borrow_mut().insert(4, false);
-                // cells_btreemap.insert(4, true);
-        */
+    fn ensure_vec_was_updated() {
+        let mut cells: Vec<(u64, bool)> = Vec::new();
 
         let mut board = Board {
-            cells: {
-                // cells_btreemap.clone()
-                cells_btreemap
-            },
-            won: false
+            cells: { cells.clone() },
+            won: false,
         };
 
-        println!("cells_btreemap, 1/2: {:?}", cells_btreemap);
+        let mut tmp = cells.clone();
 
-        cells_btreemap.get_mut().insert(13, true);
-        cells_btreemap.get_mut().insert(4, true);
-        // cells_btreemap.borrow_mut().insert(13, true);
-        // cells_btreemap.borrow_mut().insert(4, true);
+        tmp.push((13, false));
+        // cells.push((13, false));
+        tmp.push((1, false));
+        tmp.push((2, false));
+        tmp.push((7, false));
+        tmp.push((4, false));
+
+        board.cells = tmp;
+
+        board.mark_number(13);
+        board.mark_number(7);
+
+        assert_eq!(board.cells[0].1, true);
+        assert_eq!(board.cells[3].1, true);
+        assert_eq!(board.cells[4].1, false);
+    }
+
+    #[test]
+    fn calculate_correct_sum_of_unmarked_numbers() {
+        let mut cells: Vec<(u64, bool)> = Vec::new();
+
+        let mut board = Board {
+            cells: { cells.clone() },
+            won: false,
+        };
+
+        let mut tmp = cells;
+
+        tmp.push((13, true));
+        tmp.push((1, false));
+        tmp.push((22, false));
+        tmp.push((7, true));
+        tmp.push((4, false));
+
+        board.cells = tmp;
+
+        assert_eq!(board.get_sum_of_unmarked_numbers(), 27);
+    }
+
+    #[test]
+    fn board_can_mark_winning_col() {
+        let mut cells: Vec<(u64, bool)> = Vec::new();
+        let winning_numbers = vec![
+            7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16, 13, 6, 15, 25, 12, 22, 18, 20, 8, 19,
+            3, 26, 1,
+        ]; // Vec::from(7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1);
+        // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+        // let x = winning_numbers.clone().sort();
+        // println!("{:?}", x);
+
+        let mut board = Board {
+            cells: { cells.clone() },
+            won: false,
+        };
+
+        let mut tmp = cells;
+
+        tmp.push((22, false));
+        tmp.push((13, false));
+        tmp.push((17, false));
+        tmp.push((11, false));
+        tmp.push((0, false));
+
+        tmp.push((8, false));
+        tmp.push((2, false));
+        tmp.push((23, false));
+        tmp.push((4, false));
+        tmp.push((24, false));
+
+        tmp.push((21, false));
+        tmp.push((9, false));
+        tmp.push((14, false));
+        tmp.push((16, false));
+        tmp.push((7, false));
+
+        tmp.push((6, false));
+        tmp.push((10, false));
+        tmp.push((3, false));
+        tmp.push((18, false));
+        tmp.push((5, false));
+
+        tmp.push((1, false));
+        tmp.push((12, false));
+        tmp.push((20, false));
+        tmp.push((15, false));
+        tmp.push((19, false));
+
+        board.cells = tmp;
+
+        for n in winning_numbers {
+            board.mark_number(n);
+        }
+
+        assert_eq!(board.has_winning_row_or_column(false), true);
+    }
+
+    #[test]
+    fn board_can_mark_winning_row() {
+        let mut cells: Vec<(u64, bool)> = Vec::new();
+        let winning_numbers = vec![
+            7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16, 13, 6, 15, 25, 12, 22, 18, 20, 8, 19,
+            3, 26, 1,
+        ]; // Vec::from(7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1);
+
+        let mut board = Board {
+            cells: { cells.clone() },
+            won: false,
+        };
+
+        let mut tmp_cells = cells;
+
+        tmp_cells.push((22, false));
+        tmp_cells.push((13, false));
+        tmp_cells.push((17, false));
+        tmp_cells.push((11, false));
+        tmp_cells.push((0, false));
+        tmp_cells.push((8, false));
+        tmp_cells.push((2, false));
+        tmp_cells.push((23, false));
+        tmp_cells.push((4, false));
+        tmp_cells.push((24, false));
+        tmp_cells.push((21, false));
+        tmp_cells.push((9, false));
+        tmp_cells.push((14, false));
+        tmp_cells.push((16, false));
+        tmp_cells.push((7, false));
+        tmp_cells.push((6, false));
+        tmp_cells.push((10, false));
+        tmp_cells.push((3, false));
+        tmp_cells.push((18, false));
+        tmp_cells.push((5, false));
+        tmp_cells.push((1, false));
+        tmp_cells.push((12, false));
+        tmp_cells.push((20, false));
+        tmp_cells.push((15, false));
+        tmp_cells.push((19, false));
 
 
+        board.cells = tmp_cells;
 
-        println!("cells_btreemap, 2/2: {:?}", cells_btreemap);
-        // cells_btreemap.get_mut(&u8::from(13)).insert(true);
-        // cells_btreemap.get_mut(&u8::from(13)).get_or_insert(13, true);
-        // cells_btreemap.get_mut(&u8::from(4)).insert(&true);
-        // cells_btreemap.get(4 as &u8).insert(&true);
+        for n in winning_numbers {
+            board.mark_number(n);
+        }
 
-        // assert_eq!(solve_puzzle_04(false), 39902);
-        assert_eq!(board.get_sum_of_unmarked_numbers(), 30);
+        assert_eq!(board.has_winning_row_or_column(true), true);
     }
 }
