@@ -51,15 +51,10 @@ def solution(filename: str, squid_must_win: bool) -> int:
                     return number * board.get_sum_of_unmarked_numbers()
 
     if squid_must_win:
-        boards = generate_list_of_boards(number_of_boards, board_data, 5 + 1)
-
         boards_in_winning_order = []
 
         for number in drawn_numbers:
-            if len(boards) == len(boards_in_winning_order):
-                break
-
-            for i, board in enumerate(boards):
+            for _, board in enumerate(boards):
                 board.mark_number(number)
                 if not board.won and (board.has_winning_row_or_column(True) or board.has_winning_row_or_column(False)):
                     boards_in_winning_order.append(board)
