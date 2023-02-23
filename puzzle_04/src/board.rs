@@ -1,4 +1,4 @@
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct Board {
     pub cells: Vec<(u64, bool)>,
     pub won: bool,
