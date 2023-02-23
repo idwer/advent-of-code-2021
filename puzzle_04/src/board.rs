@@ -13,16 +13,9 @@ impl Board {
         for cell in &self.cells {
             if !cell.1 {
                 sum += cell.0;
-                // dbg!(sum);
             }
         }
 
-/*        if sum == 0 {
-            dbg!(&self);
-            dbg!(sum);
-            panic!()
-        }
-*/
         sum as u64
     }
 
