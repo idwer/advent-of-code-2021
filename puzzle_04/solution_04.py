@@ -45,9 +45,7 @@ def solution(filename: str, squid_must_win: bool) -> int:
         for number in drawn_numbers:
             for board in boards:
                 board.mark_number(number)
-                if board.has_winning_row_or_column(True):
-                    return number * board.get_sum_of_unmarked_numbers()
-                if board.has_winning_row_or_column(False):
+                if board.has_winning_row_or_column(True) or board.has_winning_row_or_column(False):
                     return number * board.get_sum_of_unmarked_numbers()
 
     if squid_must_win:
