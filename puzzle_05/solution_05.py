@@ -1,7 +1,3 @@
-# from LineProcessor import LineProcessor
-# from Row import Row
-
-
 def generate_diagram(input: list) -> list:
     # board dimension is the highest value of x1 or x2 or y1 or y2 + 1
     size = 0
@@ -27,10 +23,6 @@ def generate_diagram(input: list) -> list:
     return [['.' for x in range(size + 1)] for y in range(size + 1)]
 
 
-#def delta(w, x, y, z) -> int
-#   return max(x1, x2) - min(y1, y2)
-
-
 def mark_diagram(diagram: list, input: list, part_two: bool) -> list:
     coordinates = []
 
@@ -47,15 +39,6 @@ def mark_diagram(diagram: list, input: list, part_two: bool) -> list:
         start = 0
         step = 0
         
-#         if x_lefthand == x_righthand and y_lefthand == y_righthand:
-#             print(f"boo @ {pos}")
-        
-#         if x_lefthand == y_lefthand and x_righthand == y_righthand:
-#             print(f"boo2 @ {pos}")
-
-        if part_two:
-            print(f"pos: {pos}")
-
         # mark horizontal lines
         if y_lefthand == y_righthand:
             end = x_righthand
@@ -79,14 +62,6 @@ def mark_diagram(diagram: list, input: list, part_two: bool) -> list:
                             diagram[y_lefthand][n] = str(1)
                         else:
                             diagram[y_lefthand][n] = str(int(diagram[y_lefthand][n]) + 1)
-
-#             if part_two:
-#                 print(f"h:")
-#                 for line in diagram:
-#                     print(f"{line}")
-            print(f"h:")
-            for line in diagram:
-                print(f"{line}")
 
             continue
 
@@ -114,18 +89,9 @@ def mark_diagram(diagram: list, input: list, part_two: bool) -> list:
                         else:
                             diagram[n][x_lefthand] = str(int(diagram[n][x_lefthand]) + 1)
 
-#             if part_two:
-#                 print(f"v:")
-#                 for line in diagram:
-#                     print(f"{line}")
-            print(f"v:")
-            for line in diagram:
-                print(f"{line}")
-
             continue
 
         # mark diagonal lines
-#        if part_two and x_lefthand != x_righthand and y_lefthand != y_righthand:
         if part_two:
             steps = 0
             step_method = 0
@@ -136,25 +102,19 @@ def mark_diagram(diagram: list, input: list, part_two: bool) -> list:
                 steps = x_lefthand - x_righthand
                 step_method = 1
 
-            elif x_lefthand > x_righthand and y_lefthand > y_righthand:
+            if x_lefthand > x_righthand and y_lefthand > y_righthand:
                 steps = x_lefthand - x_righthand
                 step_method = 2
 
-            elif x_lefthand < x_righthand and y_lefthand < y_righthand:
+            if x_lefthand < x_righthand and y_lefthand < y_righthand:
                 steps = x_righthand - x_lefthand
                 step_method = 3
 
-            elif x_lefthand < x_righthand and y_lefthand > y_righthand:
+            if x_lefthand < x_righthand and y_lefthand > y_righthand:
                 steps = x_righthand - x_lefthand
                 step_method = 4
-#             else:
-#                 print(f"meh | {pos}")
 
             for n in range(0, steps + 1):
-#                 if diagram[x][y] == '.':
-#                     diagram[x][y] = str(n)
-#                 else:
-#                     diagram[x][y] = str(int(diagram[x][y]) + 1)
                 if diagram[y][x] == '.':
                     diagram[y][x] = str(1)
                 else:
@@ -174,10 +134,6 @@ def mark_diagram(diagram: list, input: list, part_two: bool) -> list:
                         x += 1
                         y -= 1
 
-            print(f"d:")
-            for line in diagram:
-                print(f"{line}")
-
             continue
 
     return diagram
@@ -186,7 +142,6 @@ def parse_diagram(diagram: list) -> int:
     counter = 0
 
     for row in diagram:
-#        print(f"row: {row}")
         for cell in row:
             if cell != '.' and int(cell) > 1:
                 counter += 1
@@ -217,11 +172,7 @@ def solution(filename: str, part_two: bool) -> int:
 
 
 if __name__ == '__main__':
-# ok, and will show diagram details
-#     print(f"At how many points do at least two lines overlap? {solution('test_input', False)} (should be 5)")
-# ok, and will show diagram details
-#     print(f"At how many points do at least two lines overlap? {solution('test_input', True)} (should be 12)")
-# ok, and will show diagram details
-#     print(f"At how many points do at least two lines overlap? {solution('input', False)} (should be 7269)")
-# not ok, and will show diagram details
-    print(f"At how many points do at least two lines overlap? {solution('input', True)} (should be lower than 21182, higher than 21123)")
+    print(f"At how many points do at least two lines overlap? {solution('test_input', False)} (should be 5)")
+    print(f"At how many points do at least two lines overlap? {solution('test_input', True)} (should be 12)")
+    print(f"At how many points do at least two lines overlap? {solution('input', False)} (should be 7269)")
+    print(f"At how many points do at least two lines overlap? {solution('input', True)} (should be 21140)")
