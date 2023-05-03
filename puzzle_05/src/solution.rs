@@ -4,30 +4,28 @@ fn highest_value_from_input(input: Vec<&str>) -> usize {
 
     for line in input {
         for coordinates in line.split(" -> ") {
-            let positions = coordinates.split(",").collect::<Vec<&str>>();
+            let positions = coordinates.split(',').collect::<Vec<&str>>();
 
-            for position in positions.iter().max() {
-                match i64::from_str_radix(position, 10) {
-                    Ok(n) => maximum_values.push(n),
-                    _ => (),
+            if let Some(position) = positions.iter().max() {
+                if let Ok(n) = position.parse::<i64>() {
+                    maximum_values.push(n)
                 }
             }
         }
     }
 
-    match maximum_values.iter().max() {
-        Some(s) => dimension = *s as usize,
-        _ => (),
+    if let Some(s) = maximum_values.iter().max() {
+        dimension = *s as usize
     }
 
     dimension
 }
 
 fn generate_diagram(size: usize) -> Vec<Vec<u8>> {
-    return vec![vec![0; size]; size];
+    vec![vec![0; size]; size]
 }
 
-fn mark_diagram(diagram: &mut Vec<Vec<u8>>, input: Vec<&str>, part_two: bool) -> Vec<Vec<u8>> {
+fn mark_diagram(diagram: &mut [Vec<u8>], input: Vec<&str>, part_two: bool) -> Vec<Vec<u8>> {
     let mut list_of_coordinates: Vec<_> = Vec::new();
 
     // split a line into two parts:
@@ -37,8 +35,6 @@ fn mark_diagram(diagram: &mut Vec<Vec<u8>>, input: Vec<&str>, part_two: bool) ->
     }
 
     for coordinate_to_split in list_of_coordinates {
-        // dbg!(coordinate.clone());
-
         // horizontal start
         let mut x_lefthand = 0;
         // vertical start
@@ -54,7 +50,7 @@ fn mark_diagram(diagram: &mut Vec<Vec<u8>>, input: Vec<&str>, part_two: bool) ->
 
         // split every first line in two parts:
         // 0,9
-        for coordinate in coordinate_to_split.clone().nth(0) {
+        if let Some(coordinate) = coordinate_to_split.clone().nth(0) {
             match coordinate.split_once(',') {
                 None => (),
                 Some(coordinates) => {
@@ -66,7 +62,7 @@ fn mark_diagram(diagram: &mut Vec<Vec<u8>>, input: Vec<&str>, part_two: bool) ->
 
         // split every second line in two parts:
         // 5,9
-        for coordinate in coordinate_to_split.clone().nth(1) {
+        if let Some(coordinate) = coordinate_to_split.clone().nth(1) {
             match coordinate.split_once(',') {
                 None => (),
                 Some(coordinates) => {
@@ -77,8 +73,7 @@ fn mark_diagram(diagram: &mut Vec<Vec<u8>>, input: Vec<&str>, part_two: bool) ->
         }
 
         // mark horizontal lines
-        match y_lefthand == y_righthand {
-            true => {
+        if let true = y_lefthand == y_righthand {
                 _end = x_righthand;
                 _start = x_lefthand;
 
@@ -101,14 +96,11 @@ fn mark_diagram(diagram: &mut Vec<Vec<u8>>, input: Vec<&str>, part_two: bool) ->
                     _ => (),
                 }
 
-                continue
-            }
-            _ => (),
+            continue
         }
 
         // mark vertical lines
-        match x_lefthand == x_righthand {
-            true => {
+        if let true = x_lefthand == x_righthand {
                 _end = y_righthand;
                 _start = y_lefthand;
 
@@ -131,14 +123,11 @@ fn mark_diagram(diagram: &mut Vec<Vec<u8>>, input: Vec<&str>, part_two: bool) ->
                     _ => (),
                 }
 
-                continue
-            }
-            _ => (),
+            continue
         }
 
         // mark diagonal lines
-        match part_two {
-            true => {
+        if let true = part_two {
                 let mut steps = 0;
                 let mut step_method = 0;
                 let mut x = x_lefthand;
@@ -200,13 +189,11 @@ fn mark_diagram(diagram: &mut Vec<Vec<u8>>, input: Vec<&str>, part_two: bool) ->
                     }
                 }
 
-                continue
-            }
-            _ => (),
+            continue
         }
     }
 
-    return diagram.to_vec()
+    diagram.to_vec()
 }
 
 fn parse_diagram(diagram: Vec<Vec<u8>>) -> i64 {
@@ -214,11 +201,8 @@ fn parse_diagram(diagram: Vec<Vec<u8>>) -> i64 {
 
     for row in diagram.iter() {
         for cell in row {
-            match cell {
-                2.. => {
-                    counter += 1;
-                },
-                _ => ()
+            if let 2.. = cell {
+                counter += 1;
             }
         }
     }
@@ -235,7 +219,7 @@ fn solution(rows: Vec<&str>, part_two: bool) -> i64 {
         true => diagram = mark_diagram(&mut diagram, rows.clone(), true),
     }
 
-    return parse_diagram(diagram)
+    parse_diagram(diagram)
 }
 
 pub fn solve_puzzle_05(part_two: bool) -> i64 {
