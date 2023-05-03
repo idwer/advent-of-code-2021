@@ -74,122 +74,122 @@ fn mark_diagram(diagram: &mut [Vec<u8>], input: Vec<&str>, part_two: bool) -> Ve
 
         // mark horizontal lines
         if let true = y_lefthand == y_righthand {
-                _end = x_righthand;
-                _start = x_lefthand;
+            _end = x_righthand;
+            _start = x_lefthand;
 
-                match x_lefthand < x_righthand {
-                    true => _step = 1,
-                    false => _step = -1,
-                }
+            match x_lefthand < x_righthand {
+                true => _step = 1,
+                false => _step = -1,
+            }
 
-                match _step {
-                    -1 => {
-                        for n in _end..=_start {
-                            diagram[y_lefthand as usize][n as usize] += 1;
-                        }
+            match _step {
+                -1 => {
+                    for n in _end..=_start {
+                        diagram[y_lefthand as usize][n as usize] += 1;
                     }
-                    1 => {
-                        for n in _start..=_end {
-                            diagram[y_lefthand as usize][n as usize] += 1;
-                        }
-                    }
-                    _ => (),
                 }
+                1 => {
+                    for n in _start..=_end {
+                        diagram[y_lefthand as usize][n as usize] += 1;
+                    }
+                }
+                _ => (),
+            }
 
-            continue
+            continue;
         }
 
         // mark vertical lines
         if let true = x_lefthand == x_righthand {
-                _end = y_righthand;
-                _start = y_lefthand;
+            _end = y_righthand;
+            _start = y_lefthand;
 
-                match y_lefthand < y_righthand {
-                    true => _step = 1,
-                    false => _step = -1
-                }
+            match y_lefthand < y_righthand {
+                true => _step = 1,
+                false => _step = -1,
+            }
 
-                match _step {
-                    -1 => {
-                        for n in _end..=_start {
-                            diagram[n as usize][x_lefthand as usize] += 1;
-                        }
+            match _step {
+                -1 => {
+                    for n in _end..=_start {
+                        diagram[n as usize][x_lefthand as usize] += 1;
                     }
-                    1 => {
-                        for n in _start..=_end {
-                            diagram[n as usize][x_lefthand as usize] += 1;
-                        }
-                    }
-                    _ => (),
                 }
+                1 => {
+                    for n in _start..=_end {
+                        diagram[n as usize][x_lefthand as usize] += 1;
+                    }
+                }
+                _ => (),
+            }
 
-            continue
+            continue;
         }
 
         // mark diagonal lines
         if let true = part_two {
-                let mut steps = 0;
-                let mut step_method = 0;
-                let mut x = x_lefthand;
-                let mut y = y_lefthand;
+            let mut steps = 0;
+            let mut step_method = 0;
+            let mut x = x_lefthand;
+            let mut y = y_lefthand;
 
-                match x_lefthand > x_righthand && y_lefthand < y_righthand {
-                    true => {
-                        steps = x_lefthand - x_righthand;
-                        step_method = 1;
-                    },
-                    _ => (),
+            match x_lefthand > x_righthand && y_lefthand < y_righthand {
+                true => {
+                    steps = x_lefthand - x_righthand;
+                    step_method = 1;
                 }
+                _ => (),
+            }
 
-                match x_lefthand > x_righthand && y_lefthand > y_righthand {
-                    true => {
-                        steps = x_lefthand - x_righthand;
-                        step_method = 2;
-                    },
-                    _ => (),
+            match x_lefthand > x_righthand && y_lefthand > y_righthand {
+                true => {
+                    steps = x_lefthand - x_righthand;
+                    step_method = 2;
                 }
+                _ => (),
+            }
 
-                match x_lefthand < x_righthand && y_lefthand < y_righthand {
-                    true => {
-                        steps = x_righthand - x_lefthand;
-                        step_method = 3;
-                    },
-                    _ => (),
+            match x_lefthand < x_righthand && y_lefthand < y_righthand {
+                true => {
+                    steps = x_righthand - x_lefthand;
+                    step_method = 3;
                 }
+                _ => (),
+            }
 
-                match x_lefthand < x_righthand && y_lefthand > y_righthand {
-                    true => {
-                        steps = x_righthand - x_lefthand;
-                        step_method = 4;
-                    },
-                    _ => (),
+            match x_lefthand < x_righthand && y_lefthand > y_righthand {
+                true => {
+                    steps = x_righthand - x_lefthand;
+                    step_method = 4;
                 }
+                _ => (),
+            }
 
-                for _ in 0..=steps {
-                    diagram[y as usize][x as usize] += 1;
+            for _ in 0..=steps {
+                diagram[y as usize][x as usize] += 1;
 
-                    match step_method {
-                        1 => {
-                            x -= 1;
-                            y += 1
-                        }
-                        2 => {
-                            x -= 1;
-                            y -= 1
-                        }
-                        3 => {
-                            x += 1;
-                            y += 1
-                        }
-                        4 => {
-                            x += 1;
-                            y -= 1
-                        }
-                        _ => ()
+                match step_method {
+                    1 => {
+                        x -= 1;
+                        y += 1
                     }
+                    2 => {
+                        x -= 1;
+                        y -= 1
+                    }
+                    3 => {
+                        x += 1;
+                        y += 1
+                    }
+                    4 => {
+                        x += 1;
+                        y -= 1
+                    }
+                    _ => (),
                 }
+            }
 
-            continue
+            continue;
         }
     }
 
