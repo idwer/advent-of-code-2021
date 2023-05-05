@@ -32,7 +32,7 @@ fn process_list(input: Vec<u8>) -> Vec<u8>  {
     ret
 }
 
-fn solution(rows: Vec<&str>, days: u8, part_two: bool) -> usize {
+fn solution(rows: Vec<&str>, days: u16) -> usize {
     let ret = 0;
 
     let mut list: Vec<_> = Vec::new();
@@ -60,22 +60,22 @@ fn solution(rows: Vec<&str>, days: u8, part_two: bool) -> usize {
     ret
 }
 
-pub fn solve_puzzle_06_sample(days: u8, part_two: bool) -> usize {
+pub fn solve_puzzle_06_sample(days: u16) -> usize {
     let instructions: Vec<_> = include_str!("../test_input")
         .lines()
         .filter(|l| !l.is_empty())
         .collect();
 
-    solution(instructions, days, part_two)
+    solution(instructions, days)
 }
 
-pub fn solve_puzzle_06(days: u8, part_two: bool) -> usize {
+pub fn solve_puzzle_06(days: u16) -> usize {
     let instructions: Vec<_> = include_str!("../input")
         .lines()
         .filter(|l| !l.is_empty())
         .collect();
 
-    solution(instructions, days, part_two)
+    solution(instructions, days)
 }
 
 #[cfg(test)]
@@ -84,21 +84,21 @@ mod tests {
 
     #[test]
     fn p06p1_sample() {
-        assert_eq!(solve_puzzle_06_sample(80, false), 5934);
+        assert_eq!(solve_puzzle_06_sample(80), 5934);
     }
 
     #[test]
     fn p06p1() {
-        assert_eq!(solve_puzzle_06(80, false), 379114);
+        assert_eq!(solve_puzzle_06(80), 379114);
     }
 
-    // #[test]
-    // fn p06p1_sample() {
-    //     assert_eq!(solve_puzzle_06_sample(18, false), 26);
-    // }
+    #[test]
+    fn p06p2_sample() {
+        assert_eq!(solve_puzzle_06_sample(256), 26984457539);
+    }
 
-    // #[test]
-    // fn p06p1() {
-    //     assert_eq!(solve_puzzle_06_sample(18, false), 5934);
-    // }
+    #[test]
+    fn p06p2() {
+        assert_eq!(solve_puzzle_06(256), 0);
+    }
 }
