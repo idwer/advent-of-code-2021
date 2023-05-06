@@ -1,66 +1,175 @@
-fn input_to_list(input: Vec<&str>) -> Vec<u8> {
+use std::collections::HashMap;
+
+fn input_to_list(input: Vec<&str>) -> Vec<u64> {
     let mut ret: Vec<_> = Vec::new();
 
-    for line in input {
+    for line in &input {
         for l in line.split(",") {
-            ret.push(l.parse::<u8>().unwrap())
+            ret.push(l.parse::<u64>().unwrap())
         }
     }
 
     ret
 }
 
-fn process_list(input: Vec<u8>) -> Vec<u8>  {
-    let mut ret: Vec<_> = Vec::new();
-    let mut amount_of_zeroes_in_input = 0;
+fn list_to_hashmap(input: Vec<u64>) -> HashMap<u64, u64> {
+    let mut ret = HashMap::new();
 
-    for e in &input {
-        if e > &0 {
-            ret.push(e - 1)
-        }
-
-        if e == &0 {
-            ret.push(6);
-            amount_of_zeroes_in_input += 1;
-        }
-    }
-
-    for _ in 0..amount_of_zeroes_in_input {
-        ret.push(8)
+    // upsert values in the hashmap
+    for e in input.clone() {
+        match ret.contains_key(&e) {
+            true => {
+                let value = ret.get(&e).unwrap();
+                // update
+                ret.insert(e, value + 1)
+            }
+            // insert
+            false => ret.insert(e, 1)
+        };
     }
 
     ret
 }
 
-fn solution(rows: Vec<&str>, days: u16) -> usize {
-    let ret = 0;
+fn amount_of_elements_in_hashmap(input: HashMap<u64, u64>) -> u64 {
+    let mut ret = 0;
 
-    let mut list: Vec<_> = Vec::new();
+    for e in input {
+        ret += e.1 as u64
+    }
 
+    ret
+}
+
+fn process_list(input: HashMap<u64, u64>) -> HashMap<u64, u64> {
+    let mut rethm = HashMap::new();
+
+    for key in input.clone().keys() {
+        // dbg!(key);
+
+        match key {
+            0 => {
+                let mut amount_of_zeroes_in_input = 0;
+
+                let result = input.get(&0);
+
+                match result {
+                    None => (),
+                    Some(s) => amount_of_zeroes_in_input = *s
+                }
+
+                match rethm.contains_key(&6) {
+                    true => {
+                        let result = rethm.get(&6);
+
+                        match result {
+                            None => (),
+                            Some(s) => {
+                                // update
+                                // println!("process_list() | @ 6 | before updating, rethm = {:?}", rethm);
+                                // rethm.insert(6, s + 1);
+                                rethm.insert(6, s + amount_of_zeroes_in_input);
+                                // println!("process_list() | @ 6 | after updating,  rethm = {:?}", rethm);
+                            }
+                        }
+                    }
+                    false => {
+                        // insert
+                        // rethm.insert(6, 1);
+                        rethm.insert(6, amount_of_zeroes_in_input);
+                    }
+                }
+
+                match rethm.contains_key(&8) {
+                    true => {
+                        let result = rethm.get(&8);
+
+                        match result {
+                            None => (),
+                            Some(s) => {
+                                // update
+                                // println!("process_list() | @ 8 | before updating, rethm = {:?}", rethm);
+                                // rethm.insert(8, s + 1);
+                                rethm.insert(8, s + amount_of_zeroes_in_input);
+                                // println!("process_list() | @ 8 | after updating,  rethm = {:?}", rethm);
+                            }
+                        }
+                    }
+                    false => {
+                        // insert
+                        // rethm.insert(8, 1);
+                        rethm.insert(8, amount_of_zeroes_in_input);
+                    }
+                }
+            }
+            1.. => {
+                let result = input.get(key);
+
+                match result {
+                    None => (),
+                    Some(s_outer) => {
+                         // println!("marker for when key == {}", key);
+
+                        match rethm.contains_key(&(key - 1)) {
+                            true => {
+                                let result = rethm.get(&(key - 1));
+
+                                match result {
+                                    None => (),
+                                    Some(s) => {
+                                        // update
+                                        rethm.insert(key.clone() - 1, s + s_outer);
+                                    }
+                                }
+                            }
+                            false => {
+                                rethm.insert(key.clone() - 1, *s_outer);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    rethm
+}
+
+fn solution(rows: Vec<&str>, days: u16) -> u64 {
+    let mut rethm = HashMap::new();
     let initial_state = input_to_list(rows.clone());
 
-    // println!("Initial state:\t{:?}", initial_state);
+    println!("Initial state:\t{:?}", initial_state);
 
-    list = process_list(initial_state);
+    rethm = list_to_hashmap(initial_state.clone());
+
+    // dbg!(rethm.clone());
 
     for n in 1..=days {
 /*        if n == 1 {
-            println!("After {:2} day:\t{:?}", n, list.clone());
+            // println!("After {:2} day:\t{:?}", n, list.clone().len());
+            println!("After {:3} day: {:?}", n, HashMap::from([(1, "first")]));
         } else {
-            println!("After {:2} days:\t{:?}", n, list.clone());
+            // println!("After {:2} days:\t{:?}", n, list.clone().len());
+            println!("After {:3} days: {:?}", n, HashMap::from([(n, "bla")]));
         }*/
 
-        list = process_list(list);
+        rethm = process_list(rethm);
 
-        if n == days - 1 {
-            return list.len()
+        if n <= 10 {
+            // dbg!(rethm.clone());
+            // println!("After {:3} days: {:?}", n, rethm.clone());
+        }
+
+        if n == days {
+            return amount_of_elements_in_hashmap(rethm);
         }
     }
 
-    ret
+    0
 }
 
-pub fn solve_puzzle_06_sample(days: u16) -> usize {
+pub fn solve_puzzle_06_sample(days: u16) -> u64 {
     let instructions: Vec<_> = include_str!("../test_input")
         .lines()
         .filter(|l| !l.is_empty())
@@ -69,7 +178,7 @@ pub fn solve_puzzle_06_sample(days: u16) -> usize {
     solution(instructions, days)
 }
 
-pub fn solve_puzzle_06(days: u16) -> usize {
+pub fn solve_puzzle_06(days: u16) -> u64 {
     let instructions: Vec<_> = include_str!("../input")
         .lines()
         .filter(|l| !l.is_empty())
@@ -81,6 +190,40 @@ pub fn solve_puzzle_06(days: u16) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn p06_test_amount_of_elements_in_hashmap_without_zero_in_input() {
+        let hm = HashMap::from([
+           (3, 2),
+           (4, 1),
+           (2, 1),
+           (1, 1),
+        ]);
+        
+        assert_eq!(amount_of_elements_in_hashmap(hm), 5);
+    }
+
+    #[test]
+    fn p06_test_amount_of_elements_in_hashmap_with_zero_in_input() {
+        let hm = HashMap::from([
+            (0, 2),
+            (1, 1),
+            (5, 1),
+            (6, 1),
+            (7, 1),
+            (8, 1),
+        ]);
+
+        assert_eq!(amount_of_elements_in_hashmap(hm), 7);
+    }
+
+    #[test]
+    fn p06_test_list_to_hashmap() {
+        let initial_state = Vec::from([3, 4, 3, 1, 2]);
+        let hm = list_to_hashmap(initial_state);
+
+        assert_eq!(hm.len(), 4);
+    }
 
     #[test]
     fn p06p1_sample() {
@@ -99,6 +242,6 @@ mod tests {
 
     #[test]
     fn p06p2() {
-        assert_eq!(solve_puzzle_06(256), 0);
+        assert_eq!(solve_puzzle_06(256), 1702631502303);
     }
 }
