@@ -45,8 +45,6 @@ fn process_list(input: HashMap<u64, u64>) -> HashMap<u64, u64> {
     let mut rethm = HashMap::new();
 
     for key in input.clone().keys() {
-        // dbg!(key);
-
         match key {
             0 => {
                 let mut amount_of_zeroes_in_input = 0;
@@ -55,7 +53,9 @@ fn process_list(input: HashMap<u64, u64>) -> HashMap<u64, u64> {
 
                 match result {
                     None => (),
-                    Some(s) => amount_of_zeroes_in_input = *s
+                    Some(s) => {
+                        amount_of_zeroes_in_input = *s;
+                    }
                 }
 
                 match rethm.contains_key(&6) {
@@ -66,16 +66,12 @@ fn process_list(input: HashMap<u64, u64>) -> HashMap<u64, u64> {
                             None => (),
                             Some(s) => {
                                 // update
-                                // println!("process_list() | @ 6 | before updating, rethm = {:?}", rethm);
-                                // rethm.insert(6, s + 1);
                                 rethm.insert(6, s + amount_of_zeroes_in_input);
-                                // println!("process_list() | @ 6 | after updating,  rethm = {:?}", rethm);
                             }
                         }
                     }
                     false => {
                         // insert
-                        // rethm.insert(6, 1);
                         rethm.insert(6, amount_of_zeroes_in_input);
                     }
                 }
@@ -88,16 +84,12 @@ fn process_list(input: HashMap<u64, u64>) -> HashMap<u64, u64> {
                             None => (),
                             Some(s) => {
                                 // update
-                                // println!("process_list() | @ 8 | before updating, rethm = {:?}", rethm);
-                                // rethm.insert(8, s + 1);
                                 rethm.insert(8, s + amount_of_zeroes_in_input);
-                                // println!("process_list() | @ 8 | after updating,  rethm = {:?}", rethm);
                             }
                         }
                     }
                     false => {
                         // insert
-                        // rethm.insert(8, 1);
                         rethm.insert(8, amount_of_zeroes_in_input);
                     }
                 }
@@ -108,8 +100,6 @@ fn process_list(input: HashMap<u64, u64>) -> HashMap<u64, u64> {
                 match result {
                     None => (),
                     Some(s_outer) => {
-                         // println!("marker for when key == {}", key);
-
                         match rethm.contains_key(&(key - 1)) {
                             true => {
                                 let result = rethm.get(&(key - 1));
@@ -136,33 +126,16 @@ fn process_list(input: HashMap<u64, u64>) -> HashMap<u64, u64> {
 }
 
 fn solution(rows: Vec<&str>, days: u16) -> u64 {
-    let mut rethm = HashMap::new();
+    let mut _rethm = HashMap::new();
     let initial_state = input_to_list(rows.clone());
 
-    println!("Initial state:\t{:?}", initial_state);
-
-    rethm = list_to_hashmap(initial_state.clone());
-
-    // dbg!(rethm.clone());
+    _rethm = list_to_hashmap(initial_state.clone());
 
     for n in 1..=days {
-/*        if n == 1 {
-            // println!("After {:2} day:\t{:?}", n, list.clone().len());
-            println!("After {:3} day: {:?}", n, HashMap::from([(1, "first")]));
-        } else {
-            // println!("After {:2} days:\t{:?}", n, list.clone().len());
-            println!("After {:3} days: {:?}", n, HashMap::from([(n, "bla")]));
-        }*/
-
-        rethm = process_list(rethm);
-
-        if n <= 10 {
-            // dbg!(rethm.clone());
-            // println!("After {:3} days: {:?}", n, rethm.clone());
-        }
+        _rethm = process_list(_rethm);
 
         if n == days {
-            return amount_of_elements_in_hashmap(rethm);
+            return amount_of_elements_in_hashmap(_rethm);
         }
     }
 
