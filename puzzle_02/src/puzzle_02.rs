@@ -11,12 +11,12 @@ fn parse_instruction(instruction: &str) -> Instruction {
         unhandled => panic!("unhandled direction: {}", unhandled),
     };
 
-    let steps = steps.parse::<i32>().unwrap();
+    let steps = steps.parse::<u32>().unwrap();
 
     Instruction { direction, steps }
 }
 
-fn solution(instructions: &Vec<Instruction>, part_two: bool) -> i32 {
+fn solution(instructions: &Vec<Instruction>, part_two: bool) -> u32 {
     let mut aim = 0;
     let mut pos_vertical = 0;
     let mut pos_horizontal = 0;
@@ -45,7 +45,7 @@ fn solution(instructions: &Vec<Instruction>, part_two: bool) -> i32 {
     pos_horizontal * pos_vertical
 }
 
-pub fn solve_part_1() -> i32 {
+pub fn solve_part_1() -> u32 {
     let instructions: Vec<_> = include_str!("../input")
     .lines()
     .filter(|l| !l.is_empty())
@@ -55,7 +55,7 @@ pub fn solve_part_1() -> i32 {
     solution(&instructions, false)
 }
 
-pub fn solve_part_1_sample() -> i32 {
+pub fn solve_part_1_sample() -> u32 {
     let instructions: Vec<_> = include_str!("../test_input")
     .lines()
     .filter(|l| !l.is_empty())
@@ -65,7 +65,7 @@ pub fn solve_part_1_sample() -> i32 {
     solution(&instructions, false)
 }
 
-pub fn solve_part_2() -> i32 {
+pub fn solve_part_2() -> u32 {
     let instructions: Vec<_> = include_str!("../input")
     .lines()
     .filter(|l| !l.is_empty())
@@ -75,7 +75,7 @@ pub fn solve_part_2() -> i32 {
     solution(&instructions, true)
 }
 
-pub fn solve_part_2_sample() -> i32 {
+pub fn solve_part_2_sample() -> u32 {
     let instructions: Vec<_> = include_str!("../test_input")
     .lines()
     .filter(|l| !l.is_empty())

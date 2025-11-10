@@ -6,5 +6,5 @@ pub enum Direction {
 
 pub struct Instruction {
     pub direction: Direction,
-    pub steps: i32,
+    pub steps: u32,
 }
