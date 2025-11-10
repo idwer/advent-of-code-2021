@@ -1,12 +1,10 @@
-// for future use
-
-enum Direction {
+pub enum Direction {
     Forward,
     Down,
     Up,
 }
 
-struct Instruction {
+pub struct Instruction {
     pub direction: Direction,
     pub steps: i32,
 }

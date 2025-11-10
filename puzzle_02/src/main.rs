@@ -1,3 +1,4 @@
+mod data;
 mod puzzle_02;
 
 fn main() {

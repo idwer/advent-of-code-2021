@@ -1,15 +1,5 @@
-// todo: use enum and struct found in data.rs
-
-enum Direction {
-    Forward,
-    Down,
-    Up,
-}
-
-struct Instruction {
-    pub direction: Direction,
-    pub steps: i32,
-}
+use crate::data::Direction;
+use crate::data::Instruction;
 
 fn parse_instruction(instruction: &str) -> Instruction {
     let (direction, steps) = instruction.split_once(' ').unwrap();
