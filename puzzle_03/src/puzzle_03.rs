@@ -9,8 +9,8 @@ fn get_rate(rows: Vec<&str>, line_width: i8, gamma: bool) -> u64 {
             let tmp = row.chars().nth(position.try_into().unwrap());
 
             match tmp {
-                Some(n) if n == '0' => zeroes += 1,
-                Some(n) if n == '1' => ones += 1,
+                Some('0') => zeroes += 1,
+                Some('1') => ones += 1,
                 _ => todo!(),
             }
         }
@@ -28,7 +28,7 @@ fn get_rate(rows: Vec<&str>, line_width: i8, gamma: bool) -> u64 {
 }
 
 fn parse_radix(radix: &str) -> Result<u64, Box<dyn std::error::Error>> {
-    let tmp = u64::from_str_radix(&radix, 2);
+    let tmp = u64::from_str_radix(radix, 2);
     match tmp {
         Ok(ok) => Ok(ok),
         Err(err) => Err(Box::new(err)),
@@ -42,14 +42,14 @@ fn get_life_support_generator_rating(get_rating_for_co2: bool, rows: Vec<&str>, 
     let mut ones = Vec::<_>::new();
 
     for row in rows {
-        let unwrapped_char = row.chars().nth(col_pos.try_into().unwrap());
+        let unwrapped_char = row.chars().nth(col_pos.into());
 
         match unwrapped_char {
-            Some(n) if n == '0' => {
+            Some('0') => {
                 zeroes.push(row);
             }
 
-            Some(n) if n == '1' => {
+            Some('1') => {
                 ones.push(row);
             }
             _ => (),
@@ -62,12 +62,10 @@ fn get_life_support_generator_rating(get_rating_for_co2: bool, rows: Vec<&str>, 
         } else {
             ret = ones
         }
-    } else {
-        if ones.len() >= zeroes.len() {
+    } else if ones.len() >= zeroes.len() {
             ret = ones
-        } else {
+    } else {
             ret = zeroes
-        }
     }
 
     if ret.len() > 1 {
@@ -119,18 +117,12 @@ fn solution2(rows: &Vec<&str>) -> u64 {
         panic!("too many elements in o2_rate");
     }
 
-    match parse_radix(co2_rate[0]) {
-        Ok(ok) => {
-            co2 += ok;
-        }
-        _ => (),
+    if let Ok(ok) = parse_radix(co2_rate[0]) {
+        co2 += ok;
     }
 
-    match parse_radix(oxygen_rate[0]) {
-        Ok(ok) => {
-            o2 += ok;
-        }
-        _ => (),
+    if let Ok(ok) = parse_radix(oxygen_rate[0]) {
+        o2 += ok;
     }
 
     co2 * o2
