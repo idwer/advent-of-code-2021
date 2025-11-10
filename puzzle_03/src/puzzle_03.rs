@@ -27,6 +27,56 @@ fn get_rate(rows: Vec<&str>, line_width: i8, gamma: bool) -> u64 {
     rate
 }
 
+fn parse_radix(radix: &str) -> Result<u64, Box<dyn std::error::Error>> {
+    let tmp = u64::from_str_radix(&radix, 2);
+    match tmp {
+        Ok(ok) => Ok(ok),
+        Err(err) => Err(Box::new(err)),
+    }
+}
+
+fn get_life_support_generator_rating(get_rating_for_co2: bool, rows: Vec<&str>, col_pos: u8) -> Vec<&str> {
+    let mut ret = Vec::<_>::new();
+
+    let mut zeroes = Vec::<_>::new();
+    let mut ones = Vec::<_>::new();
+
+    for row in rows {
+        let unwrapped_char = row.chars().nth(col_pos.try_into().unwrap());
+
+        match unwrapped_char {
+            Some(n) if n == '0' => {
+                zeroes.push(row);
+            }
+
+            Some(n) if n == '1' => {
+                ones.push(row);
+            }
+            _ => (),
+        }
+    }
+
+    if get_rating_for_co2 {
+        if zeroes.len() <= ones.len() {
+            ret = zeroes
+        } else {
+            ret = ones
+        }
+    } else {
+        if ones.len() >= zeroes.len() {
+            ret = ones
+        } else {
+            ret = zeroes
+        }
+    }
+
+    if ret.len() > 1 {
+        return get_life_support_generator_rating(get_rating_for_co2, ret, col_pos + 1);
+    }
+
+    ret
+}
+
 fn solution1(rows: &Vec<&str>) -> u64 {
     let line_width = (rows[0].len()).try_into().unwrap();
 
@@ -54,69 +104,6 @@ pub fn solve_part_1_sample() -> u64 {
     solution1(&instructions)
 }
 
-#[cfg(test)]
-mod tests_p03p1 {
-    use super::*;
-
-    #[test]
-    fn test_p03p1() {
-        assert_eq!(solve_part_1(), 4147524);
-    }
-
-    #[test]
-    fn test_p03p1_sample() {
-        assert_eq!(solve_part_1_sample(), 198);
-    }
-}
-fn parse_radix(radix: &str) -> Result<u64, Box<dyn std::error::Error>> {
-    let tmp = u64::from_str_radix(&radix, 2);
-    match tmp {
-        Ok(ok) => Ok(ok),
-        Err(err) => Err(Box::new(err)),
-    }
-}
-
-fn get_life_support_generator_rating(get_rating_for_co2: bool, rows: Vec<&str>, col_pos: u8) -> Vec<&str> {
-    let mut ret = Vec::<_>::new();
-
-    let mut nullen = Vec::<_>::new();
-    let mut enen = Vec::<_>::new();
-
-    for row in rows {
-        let unwrapped_char = row.chars().nth(col_pos.try_into().unwrap());
-
-        match unwrapped_char {
-            Some(n) if n == '0' => {
-                nullen.push(row);
-            }
-            Some(n) if n == '1' => {
-                enen.push(row);
-            }
-            _ => (),
-        }
-    }
-
-    if get_rating_for_co2 {
-        if nullen.len() <= enen.len() {
-            ret = nullen
-        } else {
-            ret = enen
-        }
-    } else {
-        if enen.len() >= nullen.len() {
-            ret = enen
-        } else {
-            ret = nullen
-        }
-    }
-
-    if ret.len() > 1 {
-        return get_life_support_generator_rating(get_rating_for_co2, ret, col_pos + 1);
-    }
-
-    ret
-}
-
 fn solution2(rows: &Vec<&str>) -> u64 {
     let co2_rate = get_life_support_generator_rating(true, rows.to_vec(), 0);
     let oxygen_rate = get_life_support_generator_rating(false, rows.to_vec(), 0);
@@ -127,6 +114,7 @@ fn solution2(rows: &Vec<&str>) -> u64 {
     if co2_rate.len() > 1 {
         panic!("too many elements in co2_rate");
     }
+
     if oxygen_rate.len() > 1 {
         panic!("too many elements in o2_rate");
     }
@@ -169,6 +157,16 @@ pub fn solve_part_2_sample() -> u64 {
 #[cfg(test)]
 mod tests_p03p2 {
     use super::*;
+
+    #[test]
+    fn test_p03p1() {
+        assert_eq!(solve_part_1(), 4147524);
+    }
+
+    #[test]
+    fn test_p03p1_sample() {
+        assert_eq!(solve_part_1_sample(), 198);
+    }
 
     #[test]
     fn test_p03p2() {
