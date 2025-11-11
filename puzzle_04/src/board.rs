@@ -1,6 +1,12 @@
 #[derive(Clone)]
+pub struct Cell {
+    pub number: u64,
+    pub marked: bool,
+}
+
+#[derive(Clone)]
 pub struct Board {
-    pub cells: Vec<(u64, bool)>,
+    pub cells: Vec<Cell>,
     pub won: bool,
 }
 
@@ -11,8 +17,8 @@ impl Board {
         let mut sum = 0;
 
         for cell in &self.cells {
-            if !cell.1 {
-                sum += cell.0;
+            if !cell.marked {
+                sum += cell.number;
             }
         }
 
@@ -26,26 +32,28 @@ impl Board {
         if horizontal {
             for n in (0..BOARD_DIMENSION.pow(2) + 1).step_by(BOARD_DIMENSION) {
                 if n <= list_of_cells.len() - BOARD_DIMENSION {
-                    if list_of_cells[n as usize + 0].1
-                    && list_of_cells[n as usize + 1].1
-                    && list_of_cells[n as usize + 2].1
-                    && list_of_cells[n as usize + 3].1
-                    && list_of_cells[n as usize + 4].1
+                    if list_of_cells[n as usize + 0].marked
+                    && list_of_cells[n as usize + 1].marked
+                    && list_of_cells[n as usize + 2].marked
+                    && list_of_cells[n as usize + 3].marked
+                    && list_of_cells[n as usize + 4].marked
                     {
                         self.won = true;
+
                         return self.won
                     }
                 }
             }
         } else {
             for n in 0..BOARD_DIMENSION {
-                if list_of_cells[n as usize + 0 * BOARD_DIMENSION].1
-                && list_of_cells[n as usize + 1 * BOARD_DIMENSION].1
-                && list_of_cells[n as usize + 2 * BOARD_DIMENSION].1
-                && list_of_cells[n as usize + 3 * BOARD_DIMENSION].1
-                && list_of_cells[n as usize + 4 * BOARD_DIMENSION].1
+                if list_of_cells[n as usize + 0 * BOARD_DIMENSION].marked
+                && list_of_cells[n as usize + 1 * BOARD_DIMENSION].marked
+                && list_of_cells[n as usize + 2 * BOARD_DIMENSION].marked
+                && list_of_cells[n as usize + 3 * BOARD_DIMENSION].marked
+                && list_of_cells[n as usize + 4 * BOARD_DIMENSION].marked
                 {
                     self.won = true;
+
                     return self.won
                 }
             }
@@ -59,10 +67,10 @@ impl Board {
         let mut index = 0;
 
         for cell in &self.cells {
-            if cell.0 == number {
+            if cell.number == number {
                 let mut tmpcell = cell.clone();
 
-                tmpcell.1 = !tmpcell.1;
+                tmpcell.marked = !tmpcell.marked;
 
                 tmp[index] = tmpcell.clone();
             }
@@ -80,7 +88,7 @@ mod tests {
 
     #[test]
     fn get_sum_of_unmarked_numbers() {
-        let list_of_cells: Vec<(u64, bool)> = Vec::new();
+        let list_of_cells: Vec<Cell> = Vec::new();
 
         let mut board = Board {
             cells: { list_of_cells.clone() },
@@ -89,11 +97,11 @@ mod tests {
 
         let mut list_of_cells_writeonly = list_of_cells;
 
-        list_of_cells_writeonly.push((13, true));
-        list_of_cells_writeonly.push((1, false));
-        list_of_cells_writeonly.push((22, false));
-        list_of_cells_writeonly.push((7, true));
-        list_of_cells_writeonly.push((4, false));
+        list_of_cells_writeonly.push(Cell {number: 13, marked: true});
+        list_of_cells_writeonly.push(Cell {number: 1, marked: false});
+        list_of_cells_writeonly.push(Cell {number: 22, marked: false});
+        list_of_cells_writeonly.push(Cell {number: 7, marked: true});
+        list_of_cells_writeonly.push(Cell {number: 4, marked:false});
 
         board.cells = list_of_cells_writeonly;
 
@@ -102,7 +110,8 @@ mod tests {
 
     #[test]
     fn has_winning_row_or_column() {
-        let list_of_cells: Vec<(u64, bool)> = Vec::new();
+        let list_of_cells: Vec<Cell> = Vec::new();
+
         let winning_numbers = vec![
             7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16, 13, 6, 15, 25, 12, 22, 18, 20, 8, 19,
             3, 26, 1,
@@ -116,35 +125,35 @@ mod tests {
         let mut list_of_cells_writeonly = list_of_cells;
 
         // first 5x5 block found in the file test_input
-        list_of_cells_writeonly.push((22, false));
-        list_of_cells_writeonly.push((13, false));
-        list_of_cells_writeonly.push((17, false));
-        list_of_cells_writeonly.push((11, false));
-        list_of_cells_writeonly.push((0, false));
+        list_of_cells_writeonly.push(Cell { number: 22, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 13, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 17, marked:false });
+        list_of_cells_writeonly.push(Cell { number: 11, marked:false });
+        list_of_cells_writeonly.push(Cell { number: 0, marked:false });
 
-        list_of_cells_writeonly.push((8, false));
-        list_of_cells_writeonly.push((2, false));
-        list_of_cells_writeonly.push((23, false));
-        list_of_cells_writeonly.push((4, false));
-        list_of_cells_writeonly.push((24, false));
+        list_of_cells_writeonly.push(Cell { number: 8, marked:false });
+        list_of_cells_writeonly.push(Cell { number: 2, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 23, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 4, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 24, marked: false });
 
-        list_of_cells_writeonly.push((21, false));
-        list_of_cells_writeonly.push((9, false));
-        list_of_cells_writeonly.push((14, false));
-        list_of_cells_writeonly.push((16, false));
-        list_of_cells_writeonly.push((7, false));
+        list_of_cells_writeonly.push(Cell { number: 21, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 9, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 14, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 16, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 7, marked: false });
 
-        list_of_cells_writeonly.push((6, false));
-        list_of_cells_writeonly.push((10, false));
-        list_of_cells_writeonly.push((3, false));
-        list_of_cells_writeonly.push((18, false));
-        list_of_cells_writeonly.push((5, false));
+        list_of_cells_writeonly.push(Cell { number: 6, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 10, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 3, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 18, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 5, marked: false });
 
-        list_of_cells_writeonly.push((1, false));
-        list_of_cells_writeonly.push((12, false));
-        list_of_cells_writeonly.push((20, false));
-        list_of_cells_writeonly.push((15, false));
-        list_of_cells_writeonly.push((19, false));
+        list_of_cells_writeonly.push(Cell { number: 1, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 12, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 20, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 15, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 19, marked: false });
 
         board.cells = list_of_cells_writeonly;
 
@@ -158,7 +167,7 @@ mod tests {
 
     #[test]
     fn mark_number() {
-        let list_of_cells: Vec<(u64, bool)> = Vec::new();
+        let list_of_cells: Vec<Cell> = Vec::new();
 
         let mut board = Board {
             cells: { list_of_cells.clone() },
@@ -167,18 +176,18 @@ mod tests {
 
         let mut list_of_cells_writeonly = list_of_cells.clone();
 
-        list_of_cells_writeonly.push((13, false));
-        list_of_cells_writeonly.push((1, false));
-        list_of_cells_writeonly.push((2, false));
-        list_of_cells_writeonly.push((7, false));
-        list_of_cells_writeonly.push((4, false));
+        list_of_cells_writeonly.push(Cell { number: 13, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 1, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 2, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 7, marked: false });
+        list_of_cells_writeonly.push(Cell { number: 4, marked: false });
 
         board.cells = list_of_cells_writeonly;
 
         board.mark_number(13);
         board.mark_number(7);
 
-        assert_eq!(board.cells[0].1, true);
-        assert_eq!(board.cells[3].1, true);
+        assert_eq!(board.cells[0].marked, true);
+        assert_eq!(board.cells[3].marked, true);
     }
 }

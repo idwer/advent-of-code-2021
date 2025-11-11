@@ -1,4 +1,6 @@
-use crate::board::{Board, BOARD_DIMENSION};
+use crate::board::Board;
+use crate::board::Cell;
+use crate::board::BOARD_DIMENSION;
 
 fn get_drawn_numbers(rows: Vec<&str>) -> Vec<u64> {
     let mut drawn_numbers: Vec<u64> = Vec::new();
@@ -27,7 +29,7 @@ fn generate_list_of_boards(board_data: Vec<&str>) -> Vec<Board> {
 
             for cells in rows {
                 for cell in cells.split_whitespace() {
-                    board.cells.push((cell.parse::<u64>().unwrap(), false));
+                    board.cells.push( Cell { number: cell.parse::<u64>().unwrap(), marked: false });
                 }
             }
 
@@ -123,9 +125,9 @@ mod tests {
         let board_count = (instructions.len() - 1) / BOARD_DIMENSION;
 
         // first cell on first board:
-        assert_eq!(list_of_boards[0].cells[0].0, 22);
+        assert_eq!(list_of_boards[0].cells[0].number, 22);
         // last cell on last board:
-        assert_eq!(list_of_boards[board_count - 1].cells[BOARD_DIMENSION.pow(2) - 1].0, 7);
+        assert_eq!(list_of_boards[board_count - 1].cells[BOARD_DIMENSION.pow(2) - 1].number, 7);
 
         let instructions: Vec<_> = include_str!("../input")
             .lines()
@@ -137,9 +139,9 @@ mod tests {
         let board_count = (instructions.len() - 1) / BOARD_DIMENSION;
 
         // first cell on first board:
-        assert_eq!(list_of_boards[0].cells[0].0, 91);
+        assert_eq!(list_of_boards[0].cells[0].number, 91);
         // last cell on last board:
-        assert_eq!(list_of_boards[board_count - 1].cells[BOARD_DIMENSION.pow(2) - 1].0, 33);
+        assert_eq!(list_of_boards[board_count - 1].cells[BOARD_DIMENSION.pow(2) - 1].number, 33);
     }
 
     #[test]
@@ -157,7 +159,7 @@ mod tests {
 
         for board in list_of_boards {
             for e in board.cells {
-                assert_eq!(e.1, false);
+                assert_eq!(e.marked, false);
             }
         }
 
@@ -174,7 +176,7 @@ mod tests {
 
         for board in list_of_boards {
             for e in board.cells {
-                assert_eq!(e.1, false);
+                assert_eq!(e.marked, false);
             }
         }
     }
