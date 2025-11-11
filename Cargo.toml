@@ -1,0 +1,13 @@
+# https://www.google.com/search?q=rust+cargo+subprojects
+# source: https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html
+
+[workspace]
+resolver = "3"
+members = ["puzzle_01",
+           "puzzle_02",
+           "puzzle_03",
+           "puzzle_04",
+           "puzzle_05",
+           "puzzle_06",
+           "puzzle_07",
+           ]
