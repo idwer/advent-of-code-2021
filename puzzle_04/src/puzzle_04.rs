@@ -41,12 +41,12 @@ fn generate_list_of_boards(board_data: Vec<&str>) -> Vec<Board> {
 }
 
 fn solution(rows: &Vec<&str>, part_two: bool) -> Option<u64> {
-    let mut list_of_boards = generate_list_of_boards(rows[1..].to_vec());
+    let mut boards = generate_list_of_boards(rows[1..].to_vec());
     let drawn_numbers = get_drawn_numbers(rows.clone());
 
     if !part_two {
         for number in &drawn_numbers {
-            for board in list_of_boards.iter_mut() {
+            for board in boards.iter_mut() {
                 board.mark_number(*number);
 
                 if board.has_winning_row_or_column(true) || board.has_winning_row_or_column(false) {
@@ -58,7 +58,7 @@ fn solution(rows: &Vec<&str>, part_two: bool) -> Option<u64> {
 
     if part_two {
         let mut boards_in_winning_order = Vec::new();
-        let list_of_boards_len = list_of_boards.len();
+        let list_of_boards_len = boards.len();
         let mut boards_in_winning_order_len = boards_in_winning_order.len();
 
         let mut board_placeholder = Board {
@@ -67,7 +67,7 @@ fn solution(rows: &Vec<&str>, part_two: bool) -> Option<u64> {
         };
 
         for number in &drawn_numbers {
-            for board in list_of_boards.iter_mut() {
+            for board in boards.iter_mut() {
                 board.mark_number(*number);
 
                 if !board.won &&
