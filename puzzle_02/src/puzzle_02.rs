@@ -95,6 +95,20 @@ mod tests_p02 {
     use super::*;
 
     #[test]
+    fn test_parse_direction_within_instructions() {
+        let instruction = parse_instruction("forward 5");
+
+        assert_eq!(instruction.direction, Direction::Forward);
+    }
+
+    #[test]
+    fn test_parse_steps_within_instructions() {
+        let instruction = parse_instruction("forward 5");
+
+        assert_eq!(instruction.steps, 5);
+    }
+
+    #[test]
     fn test_p02p1() {
         assert_eq!(solve_part_1(), 1480518);
     }
