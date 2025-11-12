@@ -3,7 +3,7 @@ use crate::board::Cell;
 use crate::board::BOARD_DIMENSION;
 
 fn get_drawn_numbers(rows: Vec<&str>) -> Vec<u64> {
-    let mut drawn_numbers: Vec<u64> = Vec::new();
+    let mut drawn_numbers = Vec::new();
 
     for e in rows[0].split(',') {
         match u64::from_str_radix(e, 10) {
@@ -16,7 +16,7 @@ fn get_drawn_numbers(rows: Vec<&str>) -> Vec<u64> {
 }
 
 fn generate_list_of_boards(board_data: Vec<&str>) -> Vec<Board> {
-    let mut boards = Vec::<Board>::new();
+    let mut boards = Vec::new();
 
     for n in (0..board_data.len() + 1).step_by(BOARD_DIMENSION) {
         if n + BOARD_DIMENSION <= board_data.len() {
