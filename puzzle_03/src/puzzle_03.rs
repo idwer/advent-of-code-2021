@@ -1,4 +1,4 @@
-fn get_rate(rows: Vec<&str>, line_width: i8, gamma: bool) -> u64 {
+fn get_rate(rows: Vec<&str>, line_width: u8, gamma: bool) -> u64 {
     let mut rate = 0;
 
     for position in 0..line_width {
