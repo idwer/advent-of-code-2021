@@ -1,13 +1,19 @@
-pub fn solve_part_1(filename: String) -> u64 {
-    let mut increased = 0;
-
-    let input = std::fs::read_to_string(filename).expect("error opening file");
-
+fn input_to_list(input: String) -> Vec<u32> {
     let mut numbers = Vec::new();
 
     for line in input.lines() {
         numbers.push(line.parse::<u32>().unwrap());
     }
+
+    numbers
+}
+
+pub fn solve_part_1(filename: String) -> u64 {
+    let mut increased = 0;
+
+    let input = std::fs::read_to_string(filename).expect("error opening file");
+
+    let numbers = input_to_list(input);
 
     for window in numbers.windows(2) {
         if window[0] < window[1] {
@@ -24,11 +30,7 @@ pub fn solve_part_2(filename: String) -> u64 {
 
     let input = std::fs::read_to_string(filename).expect("error opening file");
 
-    let mut numbers = Vec::new();
-
-    for line in input.lines() {
-        numbers.push(line.parse::<u32>().unwrap());
-    }
+    let numbers = input_to_list(input);
 
     for window in numbers.windows(3) {
         let cur = window[0..=2].iter().sum();
@@ -52,6 +54,27 @@ pub fn solve_part_2(filename: String) -> u64 {
 #[cfg(test)]
 mod tests_p01 {
     use super::*;
+
+    #[test]
+    fn test_input_to_list() {
+        let input = std::fs::read_to_string("test_input").unwrap();
+        let numbers = input_to_list(input);
+
+        let data = vec![
+            199,
+            200,
+            208,
+            210,
+            200,
+            207,
+            240,
+            269,
+            260,
+            263
+        ];
+
+        assert_eq!(numbers, data);
+    }
 
     #[test]
     fn test_p01p1_test_input() {
