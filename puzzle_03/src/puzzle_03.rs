@@ -151,7 +151,35 @@ mod tests_p03 {
     use super::*;
 
     #[test]
-    fn test_p03p1() {
+    fn test_get_epsilon_rate() {
+        let instructions: Vec<&str> = include_str!("../test_input")
+            .lines()
+            .filter(|l| !l.is_empty())
+            .collect();
+
+        let line_width = (instructions[0].len()).try_into().unwrap();
+
+        let epsilon_rate = get_rate(instructions.to_vec(), line_width, false);
+
+        assert_eq!(epsilon_rate, 9);
+    }
+
+    #[test]
+    fn test_get_gamma_rate() {
+        let instructions: Vec<&str> = include_str!("../test_input")
+            .lines()
+            .filter(|l| !l.is_empty())
+            .collect();
+
+        let line_width = (instructions[0].len()).try_into().unwrap();
+
+        let gamma_rate = get_rate(instructions.to_vec(), line_width, true);
+
+        assert_eq!(gamma_rate, 22);
+    }
+
+    #[test]
+    fn test_p03_p1() {
         assert_eq!(solve_part_1(), 4147524);
     }
 
