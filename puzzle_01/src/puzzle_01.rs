@@ -3,7 +3,7 @@ pub fn solve_part_1(filename: String) -> u64 {
 
     let input = std::fs::read_to_string(filename).expect("error opening file");
 
-    let mut numbers: Vec<u32> = Vec::new();
+    let mut numbers = Vec::new();
 
     for line in input.lines() {
         numbers.push(line.parse::<u32>().unwrap());
@@ -25,7 +25,7 @@ pub fn solve_part_2(filename: String) -> u64 {
 
     let input = std::fs::read_to_string(filename).expect("error opening file");
 
-    let mut numbers: Vec<u32> = Vec::new();
+    let mut numbers = Vec::new();
 
     for line in input.lines() {
         numbers.push(line.parse::<u32>().unwrap());
