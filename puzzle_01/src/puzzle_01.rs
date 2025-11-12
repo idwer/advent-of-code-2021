@@ -54,14 +54,22 @@ mod tests_p01 {
     use super::*;
 
     #[test]
-    fn test_p01p1() {
-        assert_eq!(solve_part_1("input".to_string()), 1752);
+    fn test_p01p1_test_input() {
         assert_eq!(solve_part_1("test_input".to_string()), 7);
     }
 
     #[test]
-    fn test_p01p2() {
-        assert_eq!(solve_part_2("input".to_string()), 1781);
+    fn test_p01p1_puzzle_input() {
+        assert_eq!(solve_part_1("input".to_string()), 1752);
+    }
+
+    #[test]
+    fn test_p01p2_test_input() {
         assert_eq!(solve_part_2("test_input".to_string()), 5);
+    }
+
+    #[test]
+    fn test_p01p2_puzzle_input() {
+        assert_eq!(solve_part_2("input".to_string()), 1781);
     }
 }
