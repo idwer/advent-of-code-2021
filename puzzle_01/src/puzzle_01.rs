@@ -31,7 +31,7 @@ pub fn solve_part_2(filename: String) -> u64 {
     }
 
     for window in numbers.windows(3) {
-        let cur = window[0] + window[1] + window[2];
+        let cur = window[0..=2].iter().sum();
 
         if prev == 0 {
             prev = cur;
