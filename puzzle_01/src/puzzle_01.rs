@@ -9,7 +9,7 @@ fn input_to_list(input: String) -> Vec<u32> {
 }
 
 pub fn solve_part_1(filename: String) -> u64 {
-    let mut increased = 0;
+    let mut number_of_larger_sums = 0;
 
     let input = std::fs::read_to_string(filename).expect("error opening file");
 
@@ -17,38 +17,38 @@ pub fn solve_part_1(filename: String) -> u64 {
 
     for window in numbers.windows(2) {
         if window[0] < window[1] {
-            increased += 1;
+            number_of_larger_sums += 1;
         }
     }
 
-    increased
+    number_of_larger_sums
 }
 
 pub fn solve_part_2(filename: String) -> u64 {
-    let mut increased = 0;
-    let mut prev = 0;
+    let mut number_of_larger_sums = 0;
+    let mut previous_sum_of_sliding_window = 0;
 
     let input = std::fs::read_to_string(filename).expect("error opening file");
 
     let numbers = input_to_list(input);
 
     for window in numbers.windows(3) {
-        let cur = window[0..=2].iter().sum();
+        let current_sum_of_sliding_window = window[0..=2].iter().sum();
 
-        if prev == 0 {
-            prev = cur;
+        if previous_sum_of_sliding_window == 0 {
+            previous_sum_of_sliding_window = current_sum_of_sliding_window;
 
             continue;
         }
 
-        if prev < cur {
-            increased += 1;
+        if previous_sum_of_sliding_window < current_sum_of_sliding_window {
+            number_of_larger_sums += 1;
         }
 
-        prev = cur;
+        previous_sum_of_sliding_window = current_sum_of_sliding_window;
     }
 
-    increased
+    number_of_larger_sums
 }
 
 #[cfg(test)]
