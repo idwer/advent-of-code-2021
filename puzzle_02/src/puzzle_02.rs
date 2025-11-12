@@ -16,29 +16,34 @@ fn parse_instruction(instruction: &str) -> Instruction {
     Instruction { direction, steps }
 }
 
-fn solution(instructions: &Vec<Instruction>, part_one: bool) -> u32 {
+fn solution_part_1(instructions: &Vec<Instruction>) -> u32 {
+    let mut pos_vertical = 0;
+    let mut pos_horizontal = 0;
+
+    for Instruction { direction, steps } in instructions {
+        match direction {
+            Direction::Forward => pos_horizontal += steps,
+            Direction::Down => pos_vertical += steps,
+            Direction::Up => pos_vertical -= steps,
+        }
+    }
+
+    pos_horizontal * pos_vertical
+}
+
+fn solution_part_2(instructions: &Vec<Instruction>) -> u32 {
     let mut aim = 0;
     let mut pos_vertical = 0;
     let mut pos_horizontal = 0;
 
-    if part_one {
-        for Instruction { direction, steps } in instructions {
-            match direction {
-                Direction::Forward => pos_horizontal += steps,
-                Direction::Down => pos_vertical += steps,
-                Direction::Up => pos_vertical -= steps,
+    for Instruction { direction, steps } in instructions {
+        match direction {
+            Direction::Forward => {
+                pos_vertical += aim * steps;
+                pos_horizontal += steps;
             }
-        }
-    } else {
-        for Instruction { direction, steps } in instructions {
-            match direction {
-                Direction::Forward => {
-                    pos_vertical += aim * steps;
-                    pos_horizontal += steps;
-                }
-                Direction::Down => aim += steps,
-                Direction::Up => aim -= steps,
-            }
+            Direction::Down => aim += steps,
+            Direction::Up => aim -= steps,
         }
     }
 
@@ -52,7 +57,7 @@ pub fn solve_part_1() -> u32 {
     .map(parse_instruction)
     .collect();
 
-    solution(&instructions, true)
+    solution_part_1(&instructions)
 }
 
 pub fn solve_part_1_sample() -> u32 {
@@ -62,7 +67,7 @@ pub fn solve_part_1_sample() -> u32 {
     .map(parse_instruction)
     .collect();
 
-    solution(&instructions, true)
+    solution_part_1(&instructions)
 }
 
 pub fn solve_part_2() -> u32 {
@@ -72,7 +77,7 @@ pub fn solve_part_2() -> u32 {
     .map(parse_instruction)
     .collect();
 
-    solution(&instructions, false)
+    solution_part_2(&instructions)
 }
 
 pub fn solve_part_2_sample() -> u32 {
@@ -82,7 +87,7 @@ pub fn solve_part_2_sample() -> u32 {
     .map(parse_instruction)
     .collect();
 
-    solution(&instructions, false)
+    solution_part_2(&instructions)
 }
 
 #[cfg(test)]
