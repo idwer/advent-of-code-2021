@@ -147,7 +147,7 @@ pub fn solve_part_2_sample() -> u64 {
 }
 
 #[cfg(test)]
-mod tests_p03p2 {
+mod tests_p03 {
     use super::*;
 
     #[test]
