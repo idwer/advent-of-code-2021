@@ -18,7 +18,6 @@ pub fn solve_part_1(filename: String) -> u64 {
     increased
 }
 
-
 pub fn solve_part_2(filename: String) -> u64 {
     let mut increased = 0;
     let mut prev = 0;
@@ -36,6 +35,7 @@ pub fn solve_part_2(filename: String) -> u64 {
 
         if prev == 0 {
             prev = cur;
+
             continue;
         }
 
@@ -50,7 +50,7 @@ pub fn solve_part_2(filename: String) -> u64 {
 }
 
 #[cfg(test)]
-mod tests_p01p1 {
+mod tests_p01 {
     use super::*;
 
     #[test]
