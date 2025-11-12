@@ -40,7 +40,7 @@ fn generate_list_of_boards(board_data: Vec<&str>) -> Vec<Board> {
     boards
 }
 
-fn solution(rows: &Vec<&str>, part_two: bool) -> i64 {
+fn solution(rows: &Vec<&str>, part_two: bool) -> Option<u64> {
     let mut list_of_boards = generate_list_of_boards(rows[1..].to_vec());
     let drawn_numbers = get_drawn_numbers(rows.clone());
 
@@ -83,30 +83,30 @@ fn solution(rows: &Vec<&str>, part_two: bool) -> i64 {
             if list_of_boards_len == boards_in_winning_order.len() &&
                 (board_placeholder.has_winning_row_or_column(true) ||
                 board_placeholder.has_winning_row_or_column(false)) {
-                return (number * boards_in_winning_order[boards_in_winning_order_len - 1].get_sum_of_unmarked_numbers()).try_into().unwrap()
+                return Some(number * boards_in_winning_order[boards_in_winning_order_len - 1].get_sum_of_unmarked_numbers()).try_into().unwrap()
             }
         }
     }
 
-    -1
+    None
 }
 
-pub fn solve_puzzle_04(squid_must_win: bool) -> i64 {
+pub fn solve_puzzle_04(squid_must_win: bool) -> u64 {
     let instructions: Vec<_> = include_str!("../input")
         .lines()
         .filter(|l| !l.is_empty())
         .collect();
 
-    solution(&instructions, squid_must_win)
+    solution(&instructions, squid_must_win).unwrap()
 }
 
-pub fn solve_puzzle_04_sample(squid_must_win: bool) -> i64 {
+pub fn solve_puzzle_04_sample(squid_must_win: bool) -> u64 {
     let instructions: Vec<_> = include_str!("../test_input")
         .lines()
         .filter(|l| !l.is_empty())
         .collect();
 
-    solution(&instructions, squid_must_win)
+    solution(&instructions, squid_must_win).unwrap()
 }
 
 #[cfg(test)]
