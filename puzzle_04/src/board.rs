@@ -22,7 +22,7 @@ impl Board {
             }
         }
 
-        sum as u64
+        sum
     }
 
     pub fn has_winning_row_or_column(&mut self, horizontal: bool) -> bool {
