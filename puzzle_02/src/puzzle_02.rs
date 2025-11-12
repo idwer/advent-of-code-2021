@@ -93,6 +93,7 @@ mod tests_p02 {
     fn test_p02p1() {
         assert_eq!(solve_part_1(), 1480518);
     }
+
     #[test]
     fn test_p02p1_sample() {
         assert_eq!(solve_part_1_sample(), 150);
