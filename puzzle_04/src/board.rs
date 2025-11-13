@@ -142,8 +142,60 @@ mod tests {
             board.mark_cell(number);
         }
 
-        assert_eq!(board.has_winning_row_or_column(false), true);
         assert_eq!(board.has_winning_row_or_column(true), true);
+    }
+
+
+    #[test]
+    fn test_has_winning_row_or_column_vertical_pass() {
+        let mut cells = Vec::new();
+
+        let winning_numbers = vec![
+            7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16,
+            13, 6, 15, 25, 12, 22, 18, 20, 8, 19, 3, 26, 1,
+        ];
+
+        // first 5x5 block found in the file test_input
+        cells.push(Cell { number: 22, marked: false });
+        cells.push(Cell { number: 13, marked: false });
+        cells.push(Cell { number: 17, marked:false });
+        cells.push(Cell { number: 11, marked:false });
+        cells.push(Cell { number: 0, marked:false });
+
+        cells.push(Cell { number: 8, marked:false });
+        cells.push(Cell { number: 2, marked: false });
+        cells.push(Cell { number: 23, marked: false });
+        cells.push(Cell { number: 4, marked: false });
+        cells.push(Cell { number: 24, marked: false });
+
+        cells.push(Cell { number: 21, marked: false });
+        cells.push(Cell { number: 9, marked: false });
+        cells.push(Cell { number: 14, marked: false });
+        cells.push(Cell { number: 16, marked: false });
+        cells.push(Cell { number: 7, marked: false });
+
+        cells.push(Cell { number: 6, marked: false });
+        cells.push(Cell { number: 10, marked: false });
+        cells.push(Cell { number: 3, marked: false });
+        cells.push(Cell { number: 18, marked: false });
+        cells.push(Cell { number: 5, marked: false });
+
+        cells.push(Cell { number: 1, marked: false });
+        cells.push(Cell { number: 12, marked: false });
+        cells.push(Cell { number: 20, marked: false });
+        cells.push(Cell { number: 15, marked: false });
+        cells.push(Cell { number: 19, marked: false });
+
+        let mut board = Board {
+            cells: { cells },
+            won: false,
+        };
+
+        for number in winning_numbers {
+            board.mark_cell(number);
+        }
+
+        assert_eq!(board.has_winning_row_or_column(false), true);
     }
 
     #[test]
