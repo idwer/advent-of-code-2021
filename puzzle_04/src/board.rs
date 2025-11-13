@@ -25,11 +25,11 @@ impl Board {
         sum
     }
 
-    pub fn has_winning_row_or_column(&mut self, horizontal: bool) -> bool {
+    pub fn has_winning_row_or_column(&mut self, horizontal_pass: bool) -> bool {
         let test = &self.cells;
         let cells = Vec::from_iter(test.iter());
 
-        if horizontal {
+        if horizontal_pass {
             for n in (0..BOARD_DIMENSION.pow(2) + 1).step_by(BOARD_DIMENSION) {
                 if n <= cells.len() - BOARD_DIMENSION {
                     if cells[n as usize + 0].marked
@@ -94,7 +94,7 @@ mod tests {
     }
 
     #[test]
-    fn has_winning_row_or_column() {
+    fn test_has_winning_row_or_column_horizontal_pass() {
         let mut cells = Vec::new();
 
         let winning_numbers = vec![
