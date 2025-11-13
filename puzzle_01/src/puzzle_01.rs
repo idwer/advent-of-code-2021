@@ -1,9 +1,9 @@
 fn input_to_list(input: String) -> Vec<u32> {
     let mut numbers = Vec::new();
 
-    for line in input.lines() {
-        numbers.push(line.parse::<u32>().unwrap());
-    }
+    input
+    .lines()
+    .for_each(|line| numbers.push(line.parse::<u32>().unwrap()));
 
     numbers
 }
@@ -11,11 +11,13 @@ fn input_to_list(input: String) -> Vec<u32> {
 fn number_of_increases_over_window_part_1(numbers: Vec<u32>) -> u64 {
     let mut number_of_larger_sums = 0;
 
-    for window in numbers.windows(2) {
+    numbers
+    .windows(2)
+    .for_each(|window| {
         if window[0] < window[1] {
             number_of_larger_sums += 1;
         }
-    }
+    });
 
     number_of_larger_sums
 
