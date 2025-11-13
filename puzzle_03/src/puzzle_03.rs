@@ -178,6 +178,22 @@ mod tests_p03 {
     }
 
     #[test]
+    fn test_radix_test_input() {
+        let input = ["01010"];
+        let result = parse_radix(input.iter().nth(0).unwrap()).unwrap();
+
+        assert_eq!(result, 10);
+    }
+
+    #[test]
+    fn test_radix_puzzle_input() {
+        let input = ["100111000110"];
+        let result = parse_radix(input.iter().nth(0).unwrap()).unwrap();
+
+        assert_eq!(result, 2502);
+    }
+
+    #[test]
     fn test_p03_p1() {
         assert_eq!(solve_part_1(), 4147524);
     }
