@@ -102,29 +102,29 @@ pub fn solve_part_1_sample() -> u64 {
 }
 
 fn solution2(rows: &Vec<&str>) -> u64 {
-    let co2_rate = get_life_support_generator_rating(true, rows.to_vec(), 0);
-    let oxygen_rate = get_life_support_generator_rating(false, rows.to_vec(), 0);
+    let co2_ratings = get_life_support_generator_rating(true, rows.to_vec(), 0);
+    let oxygen_ratings = get_life_support_generator_rating(false, rows.to_vec(), 0);
 
-    let mut co2: u64 = 0;
-    let mut o2: u64 = 0;
+    let mut co2_rating: u64 = 0;
+    let mut oxygen_rating: u64 = 0;
 
-    if co2_rate.len() > 1 {
+    if co2_ratings.len() > 1 {
         panic!("too many elements in co2_rate");
     }
 
-    if oxygen_rate.len() > 1 {
+    if oxygen_ratings.len() > 1 {
         panic!("too many elements in o2_rate");
     }
 
-    if let Ok(ok) = parse_radix(co2_rate[0]) {
-        co2 += ok;
+    if let Ok(ok) = parse_radix(co2_ratings[0]) {
+        co2_rating += ok;
     }
 
-    if let Ok(ok) = parse_radix(oxygen_rate[0]) {
-        o2 += ok;
+    if let Ok(ok) = parse_radix(oxygen_ratings[0]) {
+        oxygen_rating += ok;
     }
 
-    co2 * o2
+    co2_rating * oxygen_rating
 }
 
 pub fn solve_part_2() -> u64 {
