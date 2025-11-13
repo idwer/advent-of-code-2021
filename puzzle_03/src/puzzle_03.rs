@@ -6,11 +6,9 @@ fn get_rate(rows: Vec<&str>, line_width: u8, gamma: bool) -> u64 {
         let mut ones = 0;
 
         for row in &rows {
-            let tmp = row.chars().nth(position.try_into().unwrap());
-
-            match tmp {
-                Some('0') => zeroes += 1,
-                Some('1') => ones += 1,
+            match row.chars().nth(position.try_into().unwrap()).unwrap() {
+                '0' => zeroes += 1,
+                '1' => ones += 1,
                 _ => todo!(),
             }
         }
