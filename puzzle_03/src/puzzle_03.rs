@@ -19,7 +19,13 @@ fn get_rate(rows: Vec<&str>, line_width: u8, gamma: bool) -> u64 {
             rate <<= 1;
         }
 
-        if !gamma && ones < zeroes || gamma && ones > zeroes {
+        // epsilon rating
+        if !gamma && ones < zeroes {
+            rate |= 1
+        }
+
+        // gamma rating
+        if gamma && ones > zeroes {
             rate |= 1
         }
     }
