@@ -62,7 +62,7 @@ impl Board {
         false
     }
 
-    pub fn mark_number(&mut self, number: u64) {
+    pub fn mark_cell(&mut self, number: u64) {
         for cell in &mut self.cells {
             if cell.number == number {
                 cell.marked = !cell.marked;
@@ -139,7 +139,7 @@ mod tests {
         };
 
         for number in winning_numbers {
-            board.mark_number(number);
+            board.mark_cell(number);
         }
 
         assert_eq!(board.has_winning_row_or_column(false), true);
@@ -147,7 +147,7 @@ mod tests {
     }
 
     #[test]
-    fn mark_number() {
+    fn test_mark_cell() {
         let mut cells = Vec::new();
 
         cells.push(Cell { number: 13, marked: false });
@@ -161,8 +161,8 @@ mod tests {
             won: false,
         };
 
-        board.mark_number(13);
-        board.mark_number(7);
+        board.mark_cell(13);
+        board.mark_cell(7);
 
         assert_eq!(board.cells[0].marked, true);
         assert_eq!(board.cells[3].marked, true);

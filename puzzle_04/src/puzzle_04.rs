@@ -47,7 +47,7 @@ fn solution(rows: &Vec<&str>, part_two: bool) -> Option<u64> {
     if !part_two {
         for number in &drawn_numbers {
             for board in boards.iter_mut() {
-                board.mark_number(*number);
+                board.mark_cell(*number);
 
                 if board.has_winning_row_or_column(true) || board.has_winning_row_or_column(false) {
                     return (number * board.sum_of_unmarked_numbers()).try_into().unwrap();
@@ -68,7 +68,7 @@ fn solution(rows: &Vec<&str>, part_two: bool) -> Option<u64> {
 
         for number in &drawn_numbers {
             for board in boards.iter_mut() {
-                board.mark_number(*number);
+                board.mark_cell(*number);
 
                 if !board.won &&
                     (board.has_winning_row_or_column(true) ||
