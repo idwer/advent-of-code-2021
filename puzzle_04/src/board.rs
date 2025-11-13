@@ -63,22 +63,11 @@ impl Board {
     }
 
     pub fn mark_number(&mut self, number: u64) {
-        let mut tmp = self.cells.clone();
-        let mut index = 0;
-
-        for cell in &self.cells {
+        for cell in &mut self.cells {
             if cell.number == number {
-                let mut tmpcell = cell.clone();
-
-                tmpcell.marked = !tmpcell.marked;
-
-                tmp[index] = tmpcell.clone();
+                cell.marked = !cell.marked;
             }
-
-            index += 1;
         }
-
-        self.cells = tmp.clone();
     }
 }
 
