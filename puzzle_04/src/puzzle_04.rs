@@ -50,7 +50,7 @@ fn solution(rows: &Vec<&str>, part_two: bool) -> Option<u64> {
                 board.mark_number(*number);
 
                 if board.has_winning_row_or_column(true) || board.has_winning_row_or_column(false) {
-                    return (number * board.get_sum_of_unmarked_numbers()).try_into().unwrap();
+                    return (number * board.sum_of_unmarked_numbers()).try_into().unwrap();
                 }
             }
         }
@@ -83,7 +83,7 @@ fn solution(rows: &Vec<&str>, part_two: bool) -> Option<u64> {
             if list_of_boards_len == boards_in_winning_order.len() &&
                 (board_placeholder.has_winning_row_or_column(true) ||
                 board_placeholder.has_winning_row_or_column(false)) {
-                return Some(number * boards_in_winning_order[boards_in_winning_order_len - 1].get_sum_of_unmarked_numbers()).try_into().unwrap()
+                return Some(number * boards_in_winning_order[boards_in_winning_order_len - 1].sum_of_unmarked_numbers()).try_into().unwrap()
             }
         }
     }

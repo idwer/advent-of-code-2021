@@ -13,7 +13,7 @@ pub struct Board {
 pub const BOARD_DIMENSION: usize = 5;
 
 impl Board {
-    pub fn get_sum_of_unmarked_numbers(&mut self) -> u64 {
+    pub fn sum_of_unmarked_numbers(&mut self) -> u64 {
         let mut sum = 0;
 
         for cell in &self.cells {
@@ -87,7 +87,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn get_sum_of_unmarked_numbers() {
+    fn test_sum_of_unmarked_numbers() {
         let cells: Vec<Cell> = Vec::new();
 
         let mut board = Board {
@@ -105,7 +105,7 @@ mod tests {
 
         board.cells = cells_writeonly;
 
-        assert_eq!(board.get_sum_of_unmarked_numbers(), 27);
+        assert_eq!(board.sum_of_unmarked_numbers(), 27);
     }
 
     #[test]
