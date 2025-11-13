@@ -46,16 +46,11 @@ fn get_life_support_generator_rating(get_rating_for_co2: bool, rows: Vec<&str>, 
     let mut ones = Vec::<_>::new();
 
     for row in rows {
-        let unwrapped_char = row.chars().nth(col_pos.into());
+        let unwrapped_char = row.chars().nth(col_pos.into()).unwrap();
 
         match unwrapped_char {
-            Some('0') => {
-                zeroes.push(row);
-            }
-
-            Some('1') => {
-                ones.push(row);
-            }
+            '0' => zeroes.push(row),
+            '1' => ones.push(row),
             _ => (),
         }
     }
