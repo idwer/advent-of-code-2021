@@ -194,6 +194,31 @@ mod tests_p03 {
     }
 
     #[test]
+    fn test_get_life_support_generator_co2_rating() {
+        let instructions: Vec<&str> = include_str!("../test_input")
+            .lines()
+            .filter(|l| !l.is_empty())
+            .collect();
+
+        let expected_outcome = ["01010"];
+        let co2_rating = get_life_support_generator_rating(true, instructions, 0);
+
+        assert_eq!(co2_rating, expected_outcome);
+    }
+
+    #[test]
+    fn test_get_life_support_generator_oxygen_rating() {
+        let instructions: Vec<&str> = include_str!("../test_input")
+            .lines()
+            .filter(|l| !l.is_empty())
+            .collect();
+
+        let expected_outcome = ["10111"];
+        let oxygen_rating = get_life_support_generator_rating(false, instructions, 0);
+
+        assert_eq!(oxygen_rating, expected_outcome);
+    }
+    #[test]
     fn test_p03_p1() {
         assert_eq!(solve_part_1(), 4147524);
     }
